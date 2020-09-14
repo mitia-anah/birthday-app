@@ -6,7 +6,7 @@ We have a list of persons. The app will show us whose person is the closest to h
 
 You have a file in the project called person.json. It contains a list of persons, and we want to add all those persons to our birthday list app.
 
-The first time you launch the app, it should    . You can use fetch for that, it also works with local files.
+The first time you launch the app, it should fetch all the data from the people.json local file. You can use fetch for that, it also works with local files.
 
 Once they are loaded in the app, you can save them on localstorage, and you don't need to work with the json file anymore.
 
