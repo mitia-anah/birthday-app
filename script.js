@@ -4,6 +4,7 @@ function wait(ms = 0) {
 // fetching the data from people.json
 const dataList = `people.json`;
 const tbody = document.querySelector('tbody');
+const addDataBtn = document.querySelector('.add');
 
 // Function that fetch the data from people.json
 async function fetchData() {
@@ -26,10 +27,13 @@ async function fetchData() {
                 const peopleBirth = dateNow.getFullYear() - currentDate.getFullYear();
                 return `
                 <tr class='list-of-data' data-id="${data.id}">
-                    <td><image src="${data.picture}" alt="${data.firstName + ' ' + data.lastName}"/></td>
-                    <td>${data.firstName}</td>
+                    <td class="picture"><image src="${data.picture}" alt="${data.firstName + ' ' + data.lastName}"/></td>
+                    <td class="firstName">
+                        <p>${data.firstName}</p>
+                        <p>${fullDate}</p>
+                    </td>
                     <td class="lastName">${data.lastName}</td>
-                    <td>${peopleBirth}</td>
+                    <td class="birthday">${peopleBirth}days</td>
                     <td>
                         <button value="${data.id}"class="edit">
                         ✏ 
@@ -118,6 +122,7 @@ async function fetchData() {
                 }, { once: true });
             document.body.appendChild(popup);
             popup.classList.add('open');
+            // tbody.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
         });
     }
 
@@ -161,6 +166,59 @@ async function fetchData() {
             dataToDelete.classList.add('open');
         });
     }
-    tbody.addEventListener('click', handleClick)
+
+    const addNewPerson = (e) => {
+        if (e.target.closest('button.add')) {
+            addData();
+        }
+    }
+
+    const addData = (e) => {
+        const newData = document.createElement('form');
+        newData.classList.add('popup');
+        newData.insertAdjacentHTML('afterbegin',
+            `
+            <div class="popup">
+                <label for="picture">Picture</label>
+                <input type="url" id="avatar" name="picture" required>
+                <label for="last-name">Last name</label>
+                <input type="text" id="lastName" name="lastName" required>
+                <label for="first-name">First name</label>
+                <input itype="text" id="firstName" name="firstName" required>
+                <label for="birthday">Birthday</label>
+                <input type="text" id="birthday" name="birthday" placeholder="dd/mm/yy"required>
+            </div>
+            <div>
+                <button type="cancel" class="btn cancel">Cancel</button>
+                <button type="submit" class=" btn submit">Save</button>
+            </div>
+        `);
+        document.body.appendChild(newData);
+
+        window.addEventListener('click', e => {
+            if (e.target.closest('button.cancel')) {
+                destroyPopup(newData);
+            }
+        })
+
+        newData.addEventListener('submit',
+            e => {
+                e.preventDefault();
+                const form = e.target;
+                const newPerson = {
+                    picture: form.avatar.value,
+                    firstName: form.firstName.value,
+                    lastName: form.lastName.value,
+                    birthday: form.birthday.value,
+                    id: Date.now(),
+                };
+                people.push(newPerson);
+                displayList(newPerson);
+                newData.classList.add('open');
+            });
+    };
+
+    addDataBtn.addEventListener('click', addNewPerson);
+    tbody.addEventListener('click', handleClick);
 }
 fetchData();
