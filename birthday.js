@@ -1,3 +1,5 @@
+// const { th } = require("date-fns/locale");
+
 function wait(ms = 0) {
     return new Promise(resolve => setTimeout(resolve, ms))
 }
@@ -14,36 +16,55 @@ async function fetchData() {
     console.log(people);
 
     function displayList() {
-        const sortedData = people.sort((a, b) => b.birthday - a.birthday);
+        const sortedData = people.sort((a, b) => a.birthday - b.birthday);
         console.log(sortedData);
         const html = people.map(
             data => {
-                const dateNow = new Date();
+                function date(day) {
+                    if (day > 3 && day < 21) return "th";
+                    switch (day % 10) {
+                        case 1:
+                            return "st";
+                        case 2:
+                            return "nd";
+                        case 3:
+                            return "rd";
+                        default:
+                            return "th";
+                    }
+                }
+
+                const today = new Date();
                 const currentDate = new Date(data.birthday);
                 const day = currentDate.getDay();
                 const month = currentDate.getMonth();
                 const year = currentDate.getFullYear();
-                const fullDate = `${day} / ${month} / ${year}`;
-                const peopleBirth = dateNow.getFullYear() - currentDate.getFullYear();
+                const fullDate = `${day}${date(day)} / ${month + 1} / ${year}`;
+                const peopleAge = today.getFullYear() - year;
+                const futAge = peopleAge;
+
+                const momentYear = today.getFullYear();
+                const birthdayDate = new Date(momentYear, month, day);
+                let oneDay = 1000 * 60 * 60 * 24;
+                let dateToday = new Date().getFullYear();
+                const dayLeft = Math.ceil((birthdayDate.getTime() - today.getTime()) / (oneDay));
+
+
+                var monthNname = ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                ][month];
+
                 return `
                 <tr class='list-of-data' data-id="${data.id}">
                     <td class="picture"><image src="${data.picture}" alt="${data.firstName + ' ' + data.lastName}"/></td>
-                    <td class="firstName">
-                        <p>${data.firstName}</p>
-                        <p>${fullDate}</p>
-                    </td>
+                    <td class="firstName">${data.firstName}</td>
                     <td class="lastName">${data.lastName}</td>
-                    <td class="birthday">${peopleBirth}days</td>
-                    <td>
-                        <button value="${data.id}"class="edit">
-                        ✏ 
-                        </button>
-                    </td>
-                    <td>
-                        <button value="${data.id}" class="delete">
-                        ||| 
-                        </button>
-                    </td>
+                    <td>Turns ${futAge} years old on ${day}${date()} of ${monthNname} ${dateToday}</td>
+                    <td>${fullDate}</td>
+                    <td class="birthday">${dayLeft < 0 ? dayLeft * -1 +" " + "days ago" : "after" + " " + dayLeft + " days"}</td>
+                    
+                    <td><button value="${data.id}"class="edit">=></button></td>
+                    <td><button value="${data.id}" class="delete">|||</button></td>
                 </tr>
             `;
             }).join('');
@@ -77,7 +98,7 @@ async function fetchData() {
     };
     // Function for editing the form here
     function editPerson(dataId) {
-        const findPerson = people.find(person => person.id !== dataId);
+        const findPerson = people.find(person => person.id != dataId);
         return new Promise(async function(resolve) {
             // We create form here
             const popup = document.createElement('form');
@@ -118,11 +139,12 @@ async function fetchData() {
                         displayList(findPerson);
                     console.log(findPerson);
                     resolve(e.target.remove());
+                    popup.reset();
                     destroyPopup(popup);
+                    tbody.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
                 }, { once: true });
             document.body.appendChild(popup);
             popup.classList.add('open');
-            tbody.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
         });
     }
 
@@ -155,7 +177,7 @@ async function fetchData() {
             dataToDelete.addEventListener('click', e => {
                 if (e.target.closest('button.remove')) {
                     console.log(idToDelete);
-                    const removeData = people.filter(el => el.id !== idToDelete);
+                    const removeData = people.filter(el => el.id != idToDelete);
                     const deleteFindData = removeData;
                     people = deleteFindData;
                     displayList(deleteFindData);
@@ -181,13 +203,13 @@ async function fetchData() {
             `
             <div class="popup">
                 <label for="picture">Picture</label>
-                <input type="url" id="avatar" name="picture" required>
+                <input type="url" id="avatar" name="avatar" required>
                 <label for="last-name">Last name</label>
-                <input type="text" id="lastName" name="lastName" required>
+                <input type="text" id="lastName" name="lastname" required>
                 <label for="first-name">First name</label>
-                <input itype="text" id="firstName" name="firstName" required>
+                <input itype="text" id="firstName" name="firstname" required>
                 <label for="birthday">Birthday</label>
-                <input type="text" id="birthday" name="birthday" placeholder="dd/mm/yy"required>
+                <input type="text" id="birthday" name="birthdayDate" placeholder="dd/mm/yy"required>
             </div>
             <div>
                 <button type="cancel" class="btn cancel">Cancel</button>
@@ -205,21 +227,42 @@ async function fetchData() {
         newData.addEventListener('submit',
             e => {
                 e.preventDefault();
-                const form = e.target;
+                const form = e.currentTarget;
                 const newPerson = {
                     picture: form.avatar.value,
-                    firstName: form.firstName.value,
-                    lastName: form.lastName.value,
-                    birthday: form.birthday.value,
-                    id: Date.now(),
+                    firstName: form.firstname.value,
+                    lastName: form.lastname.value,
+                    birthday: form.birthdayDate.value,
+                    id: Date.now()
                 };
                 people.push(newPerson);
-                displayList(newPerson);
+                console.log(people);
+                displayList();
+                destroyPopup(newData);
                 newData.classList.add('open');
+                tbody.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
             });
     };
+    const initLocalStorage = () => {
+        //Check if there is something in the local storage
+        const dataToLs = localStorage.getItem('people');
+        const lsData = JSON.parse(dataToLs);
+        console.log(lsData);
+        if (lsData) {
+            people = lsData;
+            tbody.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
+        } else {
+            people = [];
+        }
+    };
 
+    const updateLocalStorage = () => {
+        localStorage.setItem('people', JSON.stringify(people));
+    };
+
+    tbody.addEventListener('pleaseUpdateTheList', updateLocalStorage);
     addDataBtn.addEventListener('click', addNewPerson);
     tbody.addEventListener('click', handleClick);
+    initLocalStorage();
 }
 fetchData();
