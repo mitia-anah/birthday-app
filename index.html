@@ -9,32 +9,65 @@
 </head>
 
 <body>
-    <header>
-        <h1>Birthday-app 🎂 </h1>
-    </header>
+    <main>
+        <header>
+            <h1>Birthday-app 🎂 </h1>
+        </header>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Avatar</th>
-                <th>Lastname</th>
-                <th>Firstname</th>
-                <th>Age</th>
-                <th>Birthday date</th>
-                <th>Date computation</th>
-                <th>
-                    <button type="button" class="btn">Edit</button>
-                </th>
-                <th>
-                    <button type="button" class="btn">Delete</button>
-                </th>
-                <th class="addPers">
-                    <button type="button" class="btn add">Add</button>
-                </th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+        <section class="searchForm">
+            <div class="inputSearch">
+                <div class="searchItem">
+                    <label for="filter-title">Song title:</label>
+                    <input type="text" id="myInput" placeholder="Search for names.." />
+                </div>
+                <div class="searchMonth">
+                    <label for="month">Month</label>
+                    <select name="month" id="month">
+                        <option value="january">January</option>
+                        <option value="february">February</option>
+                        <option value="march">March</option>
+                        <option value="april">April</option>
+                        <option value="may">May</option>
+                        <option value="june">June</option>
+                        <option value="july">July</option>
+                        <option value="august">August</option>
+                        <option value="september">September</option>
+                        <option value="october">Octobre</option>
+                        <option value="november">November</option>
+                        <option value="december">December</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="button" class="reset">Reset</button>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <table class="third-container">
+                <thead>
+                    <tr>
+                        <th>Avatar</th>
+                        <th>Lastname</th>
+                        <th>Firstname</th>
+                        <th>Age</th>
+                        <th>Birthday date</th>
+                        <th>Date computation</th>
+                        <th>
+                            <button type="button" class="btn">Edit</button>
+                        </th>
+                        <th>
+                            <button type="button" class="btn">Delete</button>
+                        </th>
+                        <th class="addPers">
+                            <button type="button" class="btn add">Add</button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+    </main>
     <!-- <script src="script.js"></script> -->
     <script src="birthday.js"></script>
 </body>
