@@ -7,6 +7,8 @@ function wait(ms = 0) {
 const dataList = `people.json`;
 const tbody = document.querySelector('tbody');
 const addDataBtn = document.querySelector('.add');
+const myInput = document.querySelector('.myInput');
+const getMonth = document.querySelector('.month');
 
 // Function that fetch the data from people.json
 async function fetchData() {
@@ -15,10 +17,12 @@ async function fetchData() {
     let people = data;
     console.log(people);
 
-    function displayList() {
+
+
+    function generateLists(data) {
         const sortedData = people.sort((a, b) => a.birthday - b.birthday);
         console.log(sortedData);
-        const html = people.map(
+        return data.map(
             data => {
                 function date(day) {
                     if (day > 3 && day < 21) return "th";
@@ -57,7 +61,7 @@ async function fetchData() {
                 return `
                 <tr class='list-of-data' data-id="${data.id}">
                     <td class="picture"><image src="${data.picture}" alt="${data.firstName + ' ' + data.lastName}"/></td>
-                    <td class="firstName">${data.firstName}</td>
+                    <td id="name" class="firstName">${data.firstName}</td>
                     <td class="lastName">${data.lastName}</td>
                     <td>Turns ${futAge} years old on ${day}${date()} of ${monthNname} ${dateToday}</td>
                     <td>${fullDate}</td>
@@ -69,6 +73,11 @@ async function fetchData() {
             `;
             }).join('');
         tbody.innerHTML = html;
+    }
+
+    function displayList() {
+        const myHtml = generateLists(people);
+        tbody.innerHTML = myHtml;
     }
     displayList();
 
@@ -260,9 +269,33 @@ async function fetchData() {
         localStorage.setItem('people', JSON.stringify(people));
     };
 
+    const filteredName = () => {
+        const listOfInput = myInput.value;
+        console.log(listOfInput);
+        // const filter = listOfInput.toLowerCase();
+        const filteredList = people.filter(item => item.firstName.toLowerCase().includes(listOfInput.toLowerCase()));
+        console.log(filteredList);
+        const HTML = generateLists(filteredList);
+        tbody.innerHTML = HTML;
+    }
+
+    const filteredMonth = () => {
+        const listOfMonth = getMonth.value;
+        // console.log(listOfMonth);
+        const filteredMonth = people.filter(mth => {
+            const fullMonth = new Date(mth.birthday).toLocaleString('en-US', { month: 'long' });
+            return fullMonth.toLowerCase().includes(listOfMonth);
+        });
+        const html = generateLists(filteredMonth);
+        tbody.innerHTML = html;
+    }
+
+
     tbody.addEventListener('pleaseUpdateTheList', updateLocalStorage);
     addDataBtn.addEventListener('click', addNewPerson);
     tbody.addEventListener('click', handleClick);
+    myInput.addEventListener('input', filteredName);
+    getMonth.addEventListener('input', filteredMonth);
     initLocalStorage();
 }
 fetchData();
