@@ -1,42 +1,15 @@
-# Term 3 JS Project : Birthday App
+# Birthday app
 
-Hey team! So the final project here will be a birthday list.
+## structure of the code:
+In this project, I built a 'birthday app'. At first I created html document for the `table` element, the form for the `search` box and the `add button` which shows a new form to fill when it is clicked. When everything set up, then I worked on javascript code to do the rest of the elements, such as the `form` of the popup to edit, `div` popup to show a delete comfirmation box and etc. To get all of the people's lists, I used `fetch` to fetch the data from the `people.json`.  
 
-We have a list of persons. The app will show us whose person is the closest to have their birthday.
+## Improvement
+If I had more time, I would like to work on the css because I want my project to be responsive. What's more, I may have tried another technic, which is easy to read and understandable code to get the date function work rather than having so complicated code.
 
-You have a file in the project called person.json. It contains a list of persons, and we want to add all those persons to our birthday list app.
+## Lessons learned
 
-The first time you launch the app, it should fetch all the data from the people.json local file. You can use fetch for that, it also works with local files.
+## Bigest challenge
+What struggled me the most was to store the data to the local storage. The thing is, when I started to add the local storage function, everything didn't work anymore. It took me more time to get it solved.
 
-Once they are loaded in the app, you can save them on localstorage, and you don't need to work with the json file anymore.
-
-The app will show the list of people, sorted by the ones who will have their birthday the soonest.
-
-![assets/Screenshot_2020-09-12_at_16.57.18.png](assets/Screenshot_2020-09-12_at_16.57.18.png)
-
-The screenshot is just an example of a possible layout. Feel free to create a custom layout with boostrap if you want to.
-
-The users will be able to add a new element on the list (only on the app list localstorage, not on the json). Here are the fields :
-
--   first name
--   last name
--   birthday (datepicker)
--   an url for their avatar image
--   an id for handling the operations on the objects. (no need to add that on the form)
-
-The users should be able to edit an element on the list. When you click the edit button, a modal should appear with a form inside, to edit any attribute.
-
-The users should be able to delete an element. There will be a modal that will ask if you're sure to delete the element.
-
-Every action should be persisted into the local storage.
-
-Here is the package you should use for handling date computations. Add it as a dependency of your project
-
-[https://date-fns.org/v1.29.0/docs/differenceInYears](https://date-fns.org/v1.29.0/docs/differenceInYears)
-
-Again, try to make a plan, by dividing big tasks into smaller ones.
-You have the whole week to work on it. You can collaborate with other students, but copy/pasting code is forbidden.
-Once you're finished with the functionality, try to make your app more appealing with css and other tricks.
-Be creative 🎨
-
-Good Luck
+## More eplanation
+I would like to have more explanation with the date function because I tried to use it but gave me an error.
