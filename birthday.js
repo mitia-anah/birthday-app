@@ -9,6 +9,8 @@ const tbody = document.querySelector('tbody');
 const addDataBtn = document.querySelector('.add');
 const myInput = document.querySelector('.myInput');
 const getMonth = document.querySelector('.month');
+const inputSearch = document.querySelector('.inputSearch');
+const resetBtn = document.querySelector('.reset');
 
 // Function that fetch the data from people.json
 async function fetchData() {
@@ -290,7 +292,12 @@ async function fetchData() {
         tbody.innerHTML = html;
     }
 
+    const resetFilters = e => {
+        inputSearch.reset();
+        displayList();
+    };
 
+    resetBtn.addEventListener('click', resetFilters);
     tbody.addEventListener('pleaseUpdateTheList', updateLocalStorage);
     addDataBtn.addEventListener('click', addNewPerson);
     tbody.addEventListener('click', handleClick);
