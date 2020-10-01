@@ -1,16 +1,5 @@
-// const { th } = require("date-fns/locale");
-
-function wait(ms = 0) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-}
-// fetching the data from people.json
-const dataList = `people.json`;
-const tbody = document.querySelector('tbody');
-const addDataBtn = document.querySelector('.add');
-const myInput = document.querySelector('.myInput');
-const getMonth = document.querySelector('.month');
-const inputSearch = document.querySelector('.inputSearch');
-const resetBtn = document.querySelector('.reset');
+import { dataList, tbody, addDataBtn, myInput, getMonth, inputSearch, resetBtn } from './element.js';
+import { wait, destroyPopup } from './destroyPopup.js';
 
 // Function that fetch the data from people.json
 async function fetchData() {
@@ -73,21 +62,13 @@ async function fetchData() {
             `;
             }).join('');
         tbody.innerHTML = html;
-    }
+    };
 
     function displayList() {
         const myHtml = generateLists(people);
         tbody.innerHTML = myHtml;
-    }
+    };
     displayList();
-
-    // Destroy the popup
-    async function destroyPopup(popup) {
-        popup.classList.remove("open");
-        await wait(1000); // Wait for 1 sec
-        popup.remove(); // remove it from the DOM
-        popup = null; // remove it from the javascript memory
-    }
 
     // function that handle edit button and delete button
     const handleClick = e => {
@@ -105,6 +86,7 @@ async function fetchData() {
             console.log(deleteBtn);
         }
     };
+
     // Function for editing the form here
     function editPerson(dataId) {
         const findPerson = people.find(person => person.id != dataId);
@@ -154,7 +136,7 @@ async function fetchData() {
             document.body.appendChild(popup);
             popup.classList.add('open');
         });
-    }
+    };
 
     // function for deleting item here
     const deleteDataForm = (idToDelete) => {
@@ -196,13 +178,13 @@ async function fetchData() {
             dataToDelete.classList.add('open');
             tbody.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
         });
-    }
+    };
 
     const addNewPerson = (e) => {
         if (e.target.closest('button.add')) {
             addData();
         }
-    }
+    };
 
     const addData = (e) => {
         const newData = document.createElement('form');
@@ -277,7 +259,7 @@ async function fetchData() {
         console.log(filteredList);
         const HTML = generateLists(filteredList);
         tbody.innerHTML = HTML;
-    }
+    };
 
     const filteredMonth = () => {
         const listOfMonth = getMonth.value;
@@ -288,7 +270,7 @@ async function fetchData() {
         });
         const html = generateLists(filteredMonth);
         tbody.innerHTML = html;
-    }
+    };
 
     const resetFilters = e => {
         inputSearch.reset();
@@ -302,5 +284,5 @@ async function fetchData() {
     myInput.addEventListener('input', filteredName);
     getMonth.addEventListener('input', filteredMonth);
     initLocalStorage();
-}
+};
 fetchData();
