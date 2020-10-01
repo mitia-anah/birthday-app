@@ -19,8 +19,6 @@ async function fetchData() {
     let people = data;
     console.log(people);
 
-
-
     function generateLists(data) {
         const sortedData = people.sort((a, b) => a.birthday - b.birthday);
         console.log(sortedData);
