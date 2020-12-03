@@ -1,6 +1,5 @@
 // fetching the data from people.json
-import people from "./people.json";
-export const dataList = people;
+export const dataList = `people.json`;
 export const tbody = document.querySelector('tbody');
 export const addDataBtn = document.querySelector('.add');
 export const myInput = document.querySelector('.myInput');
