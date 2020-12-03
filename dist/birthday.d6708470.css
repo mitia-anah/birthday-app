@@ -1,0 +1,224 @@
+body {
+    margin: 0;
+}
+
+main {
+    position: relative;
+}
+
+.searchForm {
+    transform: translateX(-20rem);
+}
+
+.inputSearch {
+    width: 95%;
+    padding-inline-start: -10px;
+    border: none;
+}
+
+.table {
+    position: absolute;
+    top: 10rem;
+}
+
+.list-of-data {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(9, 1fr);
+    place-items: center center;
+    gap: 20px;
+    padding: 1rem 2rem;
+    /* margin: 1rem; */
+    background: linear-gradient(180deg, rgba(70, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+    /* background-color: rgba(255, 0, 255, 0.5); */
+}
+
+header {
+    text-align: center;
+}
+
+table {
+    margin: auto;
+}
+
+td img {
+    width: 100px;
+    border-radius: 50%;
+}
+
+tr {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(9, 1fr);
+    place-items: center center;
+    gap: 20px;
+    padding: 1rem 2rem;
+    text-transform: uppercase;
+    background-color: cadetblue;
+}
+
+th {
+    font-size: 16px;
+}
+
+form {
+    width: 300px;
+    position: fixed;
+    margin: auto;
+    background: rgb(255, 255, 255);
+    border: 2px solid lightskyblue;
+    top: 20%;
+    left: 30%;
+    border-radius: 8px;
+    box-shadow: 15px 15px 15px lightsteelblue;
+}
+
+td:nth-of-type(2) {
+    color: white;
+    text-transform: capitalize;
+    font-weight: 700;
+}
+
+td:nth-of-type(3) {
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+}
+
+td:nth-of-type(4),
+td:nth-of-type(5),
+td:nth-of-type(6) {
+    color: burlywood;
+    text-transform: lowercase;
+    /* font-size: 20px; */
+    font-weight: 700;
+}
+
+.popup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+input {
+    margin-block-end: 1rem;
+    padding: 1rem;
+    margin-block-end: 1rem;
+    border-color: fuchsia;
+    border-radius: 6px;
+}
+
+label {
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: fuchsia;
+    font-weight: 700;
+}
+
+.to-deleteEl p {
+    font-size: 2rem;
+}
+
+.to-deleteEl p:first-of-type {
+    color: red;
+}
+
+q {
+    color: blue;
+}
+
+thead {
+    font-size: 1.25em;
+    background: #fffffe;
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem;
+    border-radius: 6px;
+}
+
+.btn {
+    padding: 10px;
+    border-radius: 50%;
+    background-color: pink;
+    font-weight: 700;
+}
+
+.to-delete {
+    width: 50%;
+    height: 50%;
+    background-color: rgb(255, 208, 0, 0.9);
+    border-radius: 6px;
+    position: fixed;
+    top: 20%;
+    left: 30%;
+}
+
+.to-deleteEl {
+    text-align: center;
+}
+
+.add {
+    padding: 10px;
+    border-radius: 50%;
+}
+
+.containers {
+    width: 100%;
+    background: #fff;
+    padding: 50px 0;
+}
+
+.third-container {
+    width: 100%;
+}
+
+.inputSearch {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.searchItem {
+    display: flex;
+    flex-direction: column;
+}
+
+.searchMonth select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+}
+
+.reset {
+    width: 150px;
+    margin-block-start: 1rem;
+    padding: 12px;
+}
+
+#myInput {
+    background-image: url('/searchicon.7b498063.svg');
+    /* Add a search icon to input */
+    background-position: 0 2px;
+    /* Position the search icon */
+    background-repeat: no-repeat;
+    /* Do not repeat the icon image */
+    max-width: 300px;
+    /* Full-width */
+    font-size: 16px;
+    /* Increase font-size */
+    padding: 12px 20px 12px 40px;
+    /* Add some padding */
+    border: 1px solid #ddd;
+    /* Add a grey border */
+}
+
+svg {
+    width: 20px;
+}
+
+/*# sourceMappingURL=/birthday.d6708470.css.map */
