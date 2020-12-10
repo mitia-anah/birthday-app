@@ -1,69 +1,17 @@
-import { dataList, tbody, addDataBtn, myInput, getMonth, inputSearch, resetBtn } from './element.js';
+import { tbody, addDataBtn, myInput, getMonth, inputSearch, resetBtn } from './element.js';
 import { wait, destroyPopup } from './destroyPopup.js';
 import { addNewPerson } from './addList.js';
+import { generateLists } from './generate.js'
+
+
+// get the Data
+const dataList = `https://gist.githubusercontent.com/Pinois/e1c72b75917985dc77f5c808e876b67f/raw/93debb7463fbaaec29622221b8f9e719bd5b119f/birthdayPeople.json`;
 
 // Function that fetch the data from people.json
 async function fetchData() {
     const response = await fetch(dataList);
     const data = await response.json();
     let people = data;
-    console.log(people);
-
-    function generateLists(data) {
-        const sortedData = people.sort((a, b) => a.birthday - b.birthday);
-        console.log(sortedData);
-        return data.map(
-            data => {
-                function date(day) {
-                    if (day > 3 && day < 21) return "th";
-                    switch (day % 10) {
-                        case 1:
-                            return "st";
-                        case 2:
-                            return "nd";
-                        case 3:
-                            return "rd";
-                        default:
-                            return "th";
-                    }
-                }
-
-                const today = new Date();
-                const currentDate = new Date(data.birthday);
-                const day = currentDate.getDay();
-                const month = currentDate.getMonth();
-                const year = currentDate.getFullYear();
-                const fullDate = `${day}${date(day)} / ${month + 1} / ${year}`;
-                const peopleAge = today.getFullYear() - year;
-                const futAge = peopleAge;
-
-                const momentYear = today.getFullYear();
-                const birthdayDate = new Date(momentYear, month, day);
-                let oneDay = 1000 * 60 * 60 * 24;
-                let dateToday = new Date().getFullYear();
-                const dayLeft = Math.ceil((birthdayDate.getTime() - today.getTime()) / (oneDay));
-
-
-                var monthNname = ["January", "February", "March", "April", "May", "June",
-                    "July", "August", "September", "October", "November", "December"
-                ][month];
-
-                return `
-                <tr class='list-of-data' data-id="${data.id}">
-                    <td class="picture"><image src="${data.picture}" alt="${data.firstName + ' ' + data.lastName}"/></td>
-                    <td id="name" class="firstName">${data.firstName}</td>
-                    <td class="lastName">${data.lastName}</td>
-                    <td>Turns ${futAge} years old on ${day}${date()} of ${monthNname} ${dateToday}</td>
-                    <td>${fullDate}</td>
-                    <td class="birthday">${dayLeft < 0 ? dayLeft * -1 + " " + "days ago" : "after" + " " + dayLeft + " days"}</td>
-                    
-                    <td><button value="${data.id}"class="edit"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></button></td>
-                    <td><button value="${data.id}" class="delete"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button></td>
-                </tr>
-            `;
-            }).join('');
-        tbody.innerHTML = html;
-    };
 
     function displayList() {
         const myHtml = generateLists(people);
@@ -71,28 +19,19 @@ async function fetchData() {
     };
     displayList();
 
+
     // function that handle edit button and delete button
-    const handleClick = e => {
+    function handleEditPerson(e) {
         if (e.target.closest('button.edit')) {
             const editButton = e.target.closest('tr');
-            const editedBtn = editButton.value;
-            editPerson(editedBtn);
+            const editedId = editButton.dataset.id;
+            editPerson(editedId);
         }
-        if (e.target.closest('button.delete')) {
-            const deleteData = e.target.closest('tr');
-            const deleteB = deleteData.querySelector('button.delete');
-            console.log(deleteData);
-            const deleteBtn = deleteB.value;
-            deleteDataForm(deleteBtn);
-            console.log(deleteBtn);
-        }
-    };
-
+    }
     // Function for editing the form here
     function editPerson(dataId) {
-        const findPerson = people.find(person => person.id != dataId);
+        const findPerson = people.find(person => person.id == dataId);
         return new Promise(async function (resolve) {
-            // We create form here
             const popup = document.createElement('form');
             popup.classList.add('popup');
             popup.insertAdjacentHTML('afterbegin',
@@ -119,28 +58,36 @@ async function fetchData() {
                 }
             })
 
-            popup.addEventListener(
-                'submit',
-                e => {
-                    e.preventDefault();
-                    findPerson.picture = e.target.picture.value,
-                        findPerson.lastName = e.target.lastName.value,
-                        findPerson.firstName = e.target.firstName.value,
-                        findPerson.birthday = e.target.birthday.value,
+            popup.addEventListener('submit', e => {
+                e.preventDefault()
+                findPerson.picture = popup.picture.value,
+                    findPerson.lastName = popup.lastName.value,
+                    findPerson.firstName = popup.firstName.value,
+                    findPerson.birthday = popup.birthday.value,
 
-                        displayList(findPerson);
-                    // popup.reset();
-                    resolve(e.target.remove());
-                    destroyPopup(popup);
-                    tbody.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
-                }, { once: true });
+                    displayList(findPerson);
+                // popup.reset();
+                resolve(e.target.remove());
+                destroyPopup(popup);
+                tbody.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
+            }, { once: true });
             document.body.appendChild(popup);
             popup.classList.add('open');
         });
     };
 
     // function for deleting item here
+    function handleDeletePerson(e) {
+        if (e.target.closest('button.delete')) {
+            const deleteData = e.target.closest('tr');
+            const deleteId = deleteData.querySelector('button.delete');
+            const deleteBtn = deleteId.dataset.id;
+            deleteDataForm(deleteBtn);
+        }
+    };
+
     const deleteDataForm = (idToDelete) => {
+        console.log(people);
         // const deleteButton = people.filter(el => el.id !== idToDelete);
         console.log(idToDelete);
         return new Promise(async function (resolve) {
@@ -185,7 +132,7 @@ async function fetchData() {
         //Check if there is something in the local storage
         const dataToLs = localStorage.getItem('people');
         const lsData = JSON.parse(dataToLs);
-        console.log(lsData);
+
         if (lsData) {
             people = lsData;
             tbody.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
@@ -227,7 +174,8 @@ async function fetchData() {
     resetBtn.addEventListener('click', resetFilters);
     tbody.addEventListener('pleaseUpdateTheList', updateLocalStorage);
     addDataBtn.addEventListener('click', addNewPerson);
-    tbody.addEventListener('click', handleClick);
+    tbody.addEventListener('click', handleEditPerson);
+    tbody.addEventListener('click', handleDeletePerson);
     myInput.addEventListener('input', filteredName);
     getMonth.addEventListener('input', filteredMonth);
     initLocalStorage();

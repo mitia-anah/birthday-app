@@ -117,16 +117,14 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"element.js":[function(require,module,exports) {
+})({"component/element.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.resetBtn = exports.inputSearch = exports.getMonth = exports.myInput = exports.addDataBtn = exports.tbody = exports.dataList = void 0;
+exports.resetBtn = exports.inputSearch = exports.getMonth = exports.myInput = exports.addDataBtn = exports.tbody = void 0;
 // fetching the data from people.json
-const dataList = `https://gist.githubusercontent.com/Pinois/e1c72b75917985dc77f5c808e876b67f/raw/93debb7463fbaaec29622221b8f9e719bd5b119f/birthdayPeople.json`;
-exports.dataList = dataList;
 const tbody = document.querySelector('tbody');
 exports.tbody = tbody;
 const addDataBtn = document.querySelector('.add');
@@ -139,7 +137,7 @@ const inputSearch = document.querySelector('.inputSearch');
 exports.inputSearch = inputSearch;
 const resetBtn = document.querySelector('.reset');
 exports.resetBtn = resetBtn;
-},{}],"destroyPopup.js":[function(require,module,exports) {
+},{}],"component/destroyPopup.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -148,48 +146,20 @@ Object.defineProperty(exports, "__esModule", {
 exports.wait = wait;
 exports.destroyPopup = destroyPopup;
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 // Destroy the popup
-function wait() {
-  var ms = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-  return new Promise(function (resolve) {
-    return setTimeout(resolve, ms);
-  });
+function wait(ms = 0) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function destroyPopup(_x) {
-  return _destroyPopup.apply(this, arguments);
+async function destroyPopup(popup) {
+  popup.classList.remove("open");
+  await wait(1000); // Wait for 1 sec
+
+  popup.remove(); // remove it from the DOM
+
+  popup = null; // remove it from the javascript memory
 }
-
-function _destroyPopup() {
-  _destroyPopup = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(popup) {
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            popup.classList.remove("open");
-            _context.next = 3;
-            return wait(1000);
-
-          case 3:
-            // Wait for 1 sec
-            popup.remove(); // remove it from the DOM
-
-            popup = null; // remove it from the javascript memory
-
-          case 5:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-  return _destroyPopup.apply(this, arguments);
-}
-},{}],"addList.js":[function(require,module,exports) {
+},{}],"component/addList.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -197,9 +167,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.addData = exports.addNewPerson = void 0;
 
-var _destroyPopup = require("./destroyPopup.js");
+var _destroyPopup = require("./destroyPopup");
 
-var addNewPerson = function addNewPerson(e) {
+const addNewPerson = e => {
   if (e.target.closest('button.add')) {
     addData();
   }
@@ -207,20 +177,35 @@ var addNewPerson = function addNewPerson(e) {
 
 exports.addNewPerson = addNewPerson;
 
-var addData = function addData(e) {
-  var newData = document.createElement('form');
+const addData = e => {
+  const newData = document.createElement('form');
   newData.classList.add('popup');
-  newData.insertAdjacentHTML('afterbegin', "\n        <div class=\"popup\">\n            <label for=\"picture\">Picture</label>\n            <input type=\"url\" id=\"avatar\" name=\"avatar\" required>\n            <label for=\"last-name\">Last name</label>\n            <input type=\"text\" id=\"lastName\" name=\"lastname\" required>\n            <label for=\"first-name\">First name</label>\n            <input itype=\"text\" id=\"firstName\" name=\"firstname\" required>\n            <label for=\"birthday\">Birthday</label>\n            <input type=\"text\" id=\"birthday\" name=\"birthdayDate\" placeholder=\"dd/mm/yy\"required>\n        </div>\n        <div>\n            <button type=\"cancel\" class=\"btn cancel\">Cancel</button>\n            <button type=\"submit\" class=\" btn submit\">Save</button>\n        </div>\n    ");
+  newData.insertAdjacentHTML('afterbegin', `
+        <div class="popup">
+            <label for="picture">Picture</label>
+            <input type="url" id="avatar" name="avatar" required>
+            <label for="last-name">Last name</label>
+            <input type="text" id="lastName" name="lastname" required>
+            <label for="first-name">First name</label>
+            <input itype="text" id="firstName" name="firstname" required>
+            <label for="birthday">Birthday</label>
+            <input type="text" id="birthday" name="birthdayDate" placeholder="dd/mm/yy"required>
+        </div>
+        <div>
+            <button type="cancel" class="btn cancel">Cancel</button>
+            <button type="submit" class=" btn submit">Save</button>
+        </div>
+    `);
   document.body.appendChild(newData);
-  window.addEventListener('click', function (e) {
+  window.addEventListener('click', e => {
     if (e.target.closest('button.cancel')) {
       (0, _destroyPopup.destroyPopup)(newData);
     }
   });
-  newData.addEventListener('submit', function (e) {
+  newData.addEventListener('submit', e => {
     e.preventDefault();
-    var form = e.currentTarget;
-    var newPerson = {
+    const form = e.currentTarget;
+    const newPerson = {
       picture: form.avatar.value,
       firstName: form.firstname.value,
       lastName: form.lastname.value,
@@ -238,7 +223,68 @@ var addData = function addData(e) {
 };
 
 exports.addData = addData;
-},{"./destroyPopup.js":"destroyPopup.js"}],"birthday.js":[function(require,module,exports) {
+},{"./destroyPopup":"component/destroyPopup.js"}],"component/generate.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.generateLists = generateLists;
+
+function generateLists(people) {
+  return people.sort(function (a, b) {
+    return new Date(a.birthday).getMonth() - new Date(b.birthday).getMonth();
+  }).map(data => {
+    function date(day) {
+      if (day > 3 && day < 21) return "th";
+
+      switch (day % 10) {
+        case 1:
+          return "st";
+
+        case 2:
+          return "nd";
+
+        case 3:
+          return "rd";
+
+        default:
+          return "th";
+      }
+    }
+
+    const today = new Date();
+    const currentDate = new Date(data.birthday);
+    const day = currentDate.getDay();
+    const month = currentDate.getMonth();
+    const year = currentDate.getFullYear();
+    const fullDate = `${day}${date(day)} / ${month + 1} / ${year}`;
+    const peopleAge = today.getFullYear() - year;
+    const futAge = peopleAge;
+    const momentYear = today.getFullYear();
+    const birthdayDate = new Date(momentYear, month, day);
+    let oneDay = 1000 * 60 * 60 * 24;
+    let dateToday = new Date().getFullYear();
+    const dayLeft = Math.ceil((birthdayDate.getTime() - today.getTime()) / oneDay);
+    var monthNname = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][month];
+    return `
+            <tr class='list-of-data' data-id="${data.id}">
+                <td class="picture"><image src="${data.picture}" alt="${data.firstName + ' ' + data.lastName}"/></td>
+                <td id="name" class="firstName">${data.firstName}</td>
+                <td class="lastName">${data.lastName}</td>
+                <td>Turns ${futAge} years old on ${day}${date()} of ${monthNname} ${dateToday}</td>
+                <td>${fullDate}</td>
+                <td class="birthday">${dayLeft < 0 ? dayLeft * -1 + " " + "days ago" : "after" + " " + dayLeft + " days"}</td>
+                
+                <td><button value="${data.id}"class="edit"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></button></td>
+                <td><button value="${data.id}" class="delete"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button></td>
+            </tr>
+        `;
+  }).join(''); // tbody.innerHTML = html;
+}
+
+;
+},{}],"component/birthday.js":[function(require,module,exports) {
 "use strict";
 
 var _element = require("./element.js");
@@ -247,96 +293,36 @@ var _destroyPopup = require("./destroyPopup.js");
 
 var _addList = require("./addList.js");
 
-// Function that fetch the data from people.json
+var _generate = require("./generate.js");
+
+// get the Data
+const dataList = `https://gist.githubusercontent.com/Pinois/e1c72b75917985dc77f5c808e876b67f/raw/93debb7463fbaaec29622221b8f9e719bd5b119f/birthdayPeople.json`; // Function that fetch the data from people.json
+
 async function fetchData() {
-  const response = await fetch(_element.dataList);
+  const response = await fetch(dataList);
   const data = await response.json();
   let people = data;
 
-  function generateLists(people) {
-    const sortedData = people.sort((a, b) => a.birthday - b.birthday);
-    return sortedData.map(data => {
-      function date(day) {
-        if (day > 3 && day < 21) return "th";
-
-        switch (day % 10) {
-          case 1:
-            return "st";
-
-          case 2:
-            return "nd";
-
-          case 3:
-            return "rd";
-
-          default:
-            return "th";
-        }
-      }
-
-      const today = new Date();
-      const currentDate = new Date(data.birthday);
-      const day = currentDate.getDay();
-      const month = currentDate.getMonth();
-      const year = currentDate.getFullYear();
-      const fullDate = `${day}${date(day)} / ${month + 1} / ${year}`;
-      const peopleAge = today.getFullYear() - year;
-      const futAge = peopleAge;
-      const momentYear = today.getFullYear();
-      const birthdayDate = new Date(momentYear, month, day);
-      let oneDay = 1000 * 60 * 60 * 24;
-      let dateToday = new Date().getFullYear();
-      const dayLeft = Math.ceil((birthdayDate.getTime() - today.getTime()) / oneDay);
-      var monthNname = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][month];
-      return `
-                <tr class='list-of-data' data-id="${data.id}">
-                    <td class="picture"><image src="${data.picture}" alt="${data.firstName + ' ' + data.lastName}"/></td>
-                    <td id="name" class="firstName">${data.firstName}</td>
-                    <td class="lastName">${data.lastName}</td>
-                    <td>Turns ${futAge} years old on ${day}${date()} of ${monthNname} ${dateToday}</td>
-                    <td>${fullDate}</td>
-                    <td class="birthday">${dayLeft < 0 ? dayLeft * -1 + " " + "days ago" : "after" + " " + dayLeft + " days"}</td>
-                    
-                    <td><button value="${data.id}"class="edit"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></button></td>
-                    <td><button value="${data.id}" class="delete"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button></td>
-                </tr>
-            `;
-    }).join('');
-    _element.tbody.innerHTML = html;
-  }
-
-  ;
-
   function displayList() {
-    const myHtml = generateLists(people);
+    const myHtml = (0, _generate.generateLists)(people);
     _element.tbody.innerHTML = myHtml;
   }
 
   ;
   displayList(); // function that handle edit button and delete button
 
-  const handleClick = e => {
+  function handleEditPerson(e) {
     if (e.target.closest('button.edit')) {
       const editButton = e.target.closest('tr');
-      const editedBtn = editButton.value;
-      editPerson(editedBtn);
+      const editedId = editButton.dataset.id;
+      editPerson(editedId);
     }
-
-    if (e.target.closest('button.delete')) {
-      const deleteData = e.target.closest('tr');
-      const deleteB = deleteData.querySelector('button.delete');
-      console.log(deleteData);
-      const deleteBtn = deleteB.value;
-      deleteDataForm(deleteBtn);
-      console.log(deleteBtn);
-    }
-  }; // Function for editing the form here
+  } // Function for editing the form here
 
 
   function editPerson(dataId) {
-    const findPerson = people.find(person => person.id != dataId);
+    const findPerson = people.find(person => person.id == dataId);
     return new Promise(async function (resolve) {
-      // We create form here
       const popup = document.createElement('form');
       popup.classList.add('popup');
       popup.insertAdjacentHTML('afterbegin', `
@@ -362,7 +348,7 @@ async function fetchData() {
       });
       popup.addEventListener('submit', e => {
         e.preventDefault();
-        findPerson.picture = e.target.picture.value, findPerson.lastName = e.target.lastName.value, findPerson.firstName = e.target.firstName.value, findPerson.birthday = e.target.birthday.value, displayList(findPerson); // popup.reset();
+        findPerson.picture = popup.picture.value, findPerson.lastName = popup.lastName.value, findPerson.firstName = popup.firstName.value, findPerson.birthday = popup.birthday.value, displayList(findPerson); // popup.reset();
 
         resolve(e.target.remove());
         (0, _destroyPopup.destroyPopup)(popup);
@@ -378,8 +364,20 @@ async function fetchData() {
 
   ; // function for deleting item here
 
+  function handleDeletePerson(e) {
+    if (e.target.closest('button.delete')) {
+      const deleteData = e.target.closest('tr');
+      const deleteId = deleteData.querySelector('button.delete');
+      const deleteBtn = deleteId.dataset.id;
+      deleteDataForm(deleteBtn);
+    }
+  }
+
+  ;
+
   const deleteDataForm = idToDelete => {
-    // const deleteButton = people.filter(el => el.id !== idToDelete);
+    console.log(people); // const deleteButton = people.filter(el => el.id !== idToDelete);
+
     console.log(idToDelete);
     return new Promise(async function (resolve) {
       const lastName = document.querySelector('.lastName').textContent;
@@ -440,7 +438,7 @@ async function fetchData() {
 
     const filteredList = people.filter(item => item.firstName.toLowerCase().includes(listOfInput.toLowerCase()));
     console.log(filteredList);
-    const HTML = generateLists(filteredList);
+    const HTML = (0, _generate.generateLists)(filteredList);
     _element.tbody.innerHTML = HTML;
   };
 
@@ -453,7 +451,7 @@ async function fetchData() {
       });
       return fullMonth.toLowerCase().includes(listOfMonth);
     });
-    const html = generateLists(filteredMonth);
+    const html = (0, _generate.generateLists)(filteredMonth);
     _element.tbody.innerHTML = html;
   };
 
@@ -469,7 +467,9 @@ async function fetchData() {
 
   _element.addDataBtn.addEventListener('click', _addList.addNewPerson);
 
-  _element.tbody.addEventListener('click', handleClick);
+  _element.tbody.addEventListener('click', handleEditPerson);
+
+  _element.tbody.addEventListener('click', handleDeletePerson);
 
   _element.myInput.addEventListener('input', filteredName);
 
@@ -479,7 +479,7 @@ async function fetchData() {
 }
 
 fetchData();
-},{"./element.js":"element.js","./destroyPopup.js":"destroyPopup.js","./addList.js":"addList.js"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./element.js":"component/element.js","./destroyPopup.js":"component/destroyPopup.js","./addList.js":"component/addList.js","./generate.js":"component/generate.js"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -507,7 +507,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61491" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62270" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -683,5 +683,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","birthday.js"], null)
-//# sourceMappingURL=/birthday.eb7d1bd7.js.map
+},{}]},{},["../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","component/birthday.js"], null)
+//# sourceMappingURL=/birthday.4fc5c73a.js.map

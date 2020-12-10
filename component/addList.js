@@ -1,4 +1,4 @@
-import { destroyPopup } from './destroyPopup.js';
+import { destroyPopup } from './destroyPopup';
 
 export const addNewPerson = (e) => {
     if (e.target.closest('button.add')) {
