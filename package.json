@@ -4,6 +4,7 @@
   "description": "## structure of the code: In this project, I built a 'birthday app'. At first I created html document for the `table` element, the form for the `search` box and the `add button` which shows a new form to fill when it is clicked. When everything set up, then I worked on javascript code to do the rest of the elements, such as the `form` of the popup to edit, `div` popup to show a delete comfirmation box and etc. To get all of the people's lists, I used `fetch` to fetch the data from the `people.json`.",
   "main": "addList.js",
   "dependencies": {
+    "bootstrap": "^4.5.3",
     "date-fns": "^2.16.1",
     "express": "^4.17.1",
     "node-sass": "^4.14.1",

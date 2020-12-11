@@ -39,15 +39,19 @@ export function generateLists(people) {
 
             return `
             <tr class='list-of-data' data-id="${data.id}">
-                <td class="picture"><image src="${data.picture}" alt="${data.firstName + ' ' + data.lastName}"/></td>
-                <td id="name" class="firstName">${data.firstName}</td>
-                <td class="lastName">${data.lastName}</td>
-                <td>Turns ${futAge} years old on ${day}${date()} of ${monthNname} ${dateToday}</td>
-                <td>${fullDate}</td>
-                <td class="birthday">${dayLeft < 0 ? dayLeft * -1 + " " + "days ago" : "after" + " " + dayLeft + " days"}</td>
+                <td class="col-8 col-sm-6 picture"><image src="${data.picture}" alt="${data.firstName + ' ' + data.lastName}"/></td>
+                <td class="col-8 col-sm-6 firstName" id="name">${data.firstName}</td>
+                <td class="col-8 col-sm-6 lastName" >${data.lastName}</td>
+                <td class="col-8 col-sm-6">Turns ${futAge} years old on ${day}${date()} of ${monthNname} ${dateToday}</td>
+                <td class="col-8 col-sm-6">${fullDate}</td>
+                <td class="col-8 col-sm-6 birthday" >${dayLeft < 0 ? dayLeft * -1 + " " + "days ago" : "after" + " " + dayLeft + " days"}</td>
                 
-                <td><button value="${data.id}"class="edit"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></button></td>
-                <td><button value="${data.id}" class="delete"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button></td>
+                <td class="col-8 col-sm-6">
+                <p data-placement="top" data-toggle="tooltip" title="Edit">
+                    <button data-id="${data.id}" class="edit btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                </td>
+                <td class="col-8 col-sm-6"><button data-id="${data.id}" class="delete"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button></td>
             </tr>
         `;
         }).join('');

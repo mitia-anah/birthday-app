@@ -1,34 +1,12 @@
-body {
-    margin: 0;
-}
-
 main {
-    position: relative;
+    max-width: 90%;
+    min-width: 90%;
+    margin: auto;
 }
 
-.searchForm {
-    transform: translateX(-20rem);
-}
 
-.inputSearch {
-    width: 95%;
-    padding-inline-start: -10px;
-    border: none;
-}
-
-.table {
-    position: absolute;
-    top: 10rem;
-}
 
 .list-of-data {
-    display: grid;
-    grid-auto-flow: column;
-    grid-template-columns: repeat(9, 1fr);
-    place-items: center center;
-    gap: 20px;
-    padding: 1rem 2rem;
-    /* margin: 1rem; */
     background: linear-gradient(180deg, rgba(70, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
     /* background-color: rgba(255, 0, 255, 0.5); */
 }
@@ -37,9 +15,6 @@ header {
     text-align: center;
 }
 
-table {
-    margin: auto;
-}
 
 td img {
     width: 100px;
@@ -47,12 +22,6 @@ td img {
 }
 
 tr {
-    display: grid;
-    grid-auto-flow: column;
-    grid-template-columns: repeat(9, 1fr);
-    place-items: center center;
-    gap: 20px;
-    padding: 1rem 2rem;
     text-transform: uppercase;
     background-color: cadetblue;
 }
@@ -61,7 +30,7 @@ th {
     font-size: 16px;
 }
 
-form {
+.open{
     width: 300px;
     position: fixed;
     margin: auto;
@@ -72,35 +41,13 @@ form {
     border-radius: 8px;
     box-shadow: 15px 15px 15px lightsteelblue;
 }
-
-td:nth-of-type(2) {
-    color: white;
-    text-transform: capitalize;
-    font-weight: 700;
-}
-
-td:nth-of-type(3) {
-    text-transform: uppercase;
-    font-size: 16px;
-    font-weight: 700;
-    color: white;
-}
-
-td:nth-of-type(4),
-td:nth-of-type(5),
-td:nth-of-type(6) {
-    color: burlywood;
-    text-transform: lowercase;
-    /* font-size: 20px; */
-    font-weight: 700;
-}
-
+/* 
 .popup {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
-}
+} */
 
 input {
     margin-block-end: 1rem;
@@ -166,7 +113,7 @@ thead {
     border-radius: 50%;
 }
 
-.containers {
+/* .containers {
     width: 100%;
     background: #fff;
     padding: 50px 0;
@@ -174,7 +121,7 @@ thead {
 
 .third-container {
     width: 100%;
-}
+} */
 
 .inputSearch {
     display: flex;

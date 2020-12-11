@@ -1,11 +1,6 @@
-import { tbody, addDataBtn, myInput, getMonth, inputSearch, resetBtn } from './element.js';
+import { dataList, tbody, addDataBtn, myInput, getMonth, inputSearch, resetBtn } from './element.js';
 import { wait, destroyPopup } from './destroyPopup.js';
-import { addNewPerson } from './addList.js';
 import { generateLists } from './generate.js'
-
-
-// get the Data
-const dataList = `https://gist.githubusercontent.com/Pinois/e1c72b75917985dc77f5c808e876b67f/raw/93debb7463fbaaec29622221b8f9e719bd5b119f/birthdayPeople.json`;
 
 // Function that fetch the data from people.json
 async function fetchData() {
@@ -29,8 +24,10 @@ async function fetchData() {
         }
     }
     // Function for editing the form here
-    function editPerson(dataId) {
+    const editPerson = async (dataId) => {
+        console.log(people);
         const findPerson = people.find(person => person.id == dataId);
+        console.log(findPerson);
         return new Promise(async function (resolve) {
             const popup = document.createElement('form');
             popup.classList.add('popup');
@@ -44,7 +41,7 @@ async function fetchData() {
 				<label for="first-name">First name</label>
 				<input type="text" name="firstName" value="${findPerson.firstName}">
 				<label for="birthday">Birthday</label>
-				<input type="text" name="birthday" value="${findPerson.birthday}">
+				<input type="date" name="birthday"  >
 			</div>
 			<div class="buttons">
 				<button type="cancel" class="btn cancel">Cancel</button>
@@ -52,6 +49,11 @@ async function fetchData() {
 			</div>
     	`
             );
+            document.body.appendChild(popup);
+            await wait(50);
+            popup.classList.add('open');
+
+            // Reject the change
             window.addEventListener('click', e => {
                 if (e.target.closest('button.cancel')) {
                     destroyPopup(popup);
@@ -62,17 +64,17 @@ async function fetchData() {
                 e.preventDefault()
                 findPerson.picture = popup.picture.value,
                     findPerson.lastName = popup.lastName.value,
-                    findPerson.firstName = popup.firstName.value,
-                    findPerson.birthday = popup.birthday.value,
+                    console.log(findPerson.lastName);
+                findPerson.firstName = popup.firstName.value,
+                    console.log(findPerson.firstName);
+                findPerson.birthday = popup.birthday.value,
 
                     displayList(findPerson);
-                // popup.reset();
-                resolve(e.target.remove());
+
+                resolve(popup.remove());
                 destroyPopup(popup);
                 tbody.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
             }, { once: true });
-            document.body.appendChild(popup);
-            popup.classList.add('open');
         });
     };
 
@@ -87,19 +89,16 @@ async function fetchData() {
     };
 
     const deleteDataForm = (idToDelete) => {
-        console.log(people);
         // const deleteButton = people.filter(el => el.id !== idToDelete);
         console.log(idToDelete);
         return new Promise(async function (resolve) {
-            const lastName = document.querySelector('.lastName').textContent;
-
             const dataToDelete = document.createElement('div');
             dataToDelete.classList.add('to-delete');
             dataToDelete.insertAdjacentHTML('afterbegin',
                 `
             <div class="to-deleteEl">
                 <p> ⚠ </p>
-                <p> Do you want to remove <br> <q>${lastName}</q> from the list?
+                <p> Do you want to remove this person from the list?
                 </p>
                 <button class="remove">Yes</button>
                 <button type="cancel" class="cancel">No</button>
@@ -112,9 +111,8 @@ async function fetchData() {
                 }
             });
 
-            dataToDelete.addEventListener('click', e => {
+            window.addEventListener('click', e => {
                 if (e.target.closest('button.remove')) {
-                    console.log(idToDelete);
                     const removeData = people.filter(el => el.id != idToDelete);
                     const deleteFindData = removeData;
                     people = deleteFindData;
@@ -128,17 +126,72 @@ async function fetchData() {
         });
     };
 
+    const addNewPerson = (e) => {
+        if (e.target.closest('button.add')) {
+            addData();
+        }
+    };
+
+    const addData = id => {
+        return new Promise(async function (resolve) {
+            const newData = document.createElement('form');
+            newData.classList.add('popup');
+            newData.insertAdjacentHTML('afterbegin',
+                `
+            <div class="popup">
+                <label for="picture">Picture</label>
+                <input type="url" id="avatar" name="avatar" required>
+                <label for="last-name">Last name</label>
+                <input type="text" id="lastName" name="lastname" required>
+                <label for="first-name">First name</label>
+                <input itype="text" id="firstName" name="firstname" required>
+                <label for="birthday">Birthday</label>
+                <input type="date" id="birthday" name="birthdayDate" placeholder="dd/mm/yy"required>
+            </div>
+            <div>
+                <button type="cancel" class="btn cancel">Cancel</button>
+                <button type="submit" class=" btn submit">Save</button>
+            </div>
+        `);
+            document.body.appendChild(newData);
+            newData.classList.add('open');
+
+            window.addEventListener('click', e => {
+                if (e.target.closest('button.cancel')) {
+                    destroyPopup(newData);
+                }
+            })
+
+            newData.addEventListener('submit',
+                e => {
+                    e.preventDefault();
+                    const form = e.currentTarget;
+                    const newPerson = {
+                        picture: form.avatar.value,
+                        firstName: form.firstname.value,
+                        lastName: form.lastname.value,
+                        birthday: form.birthdayDate.value,
+                        id: Date.now()
+                    };
+                    people.push(newPerson);
+                    console.log(people);
+                    displayList();
+                    destroyPopup(newData);
+
+                    // form.reset();
+                    tbody.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
+                });
+        })
+    };
+
     const initLocalStorage = () => {
         //Check if there is something in the local storage
-        const dataToLs = localStorage.getItem('people');
-        const lsData = JSON.parse(dataToLs);
-
+        const lsData = JSON.parse(localStorage.getItem('people'));
         if (lsData) {
             people = lsData;
-            tbody.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
-        } else {
-            people = [];
+            displayList();
         }
+        tbody.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
     };
 
     const updateLocalStorage = () => {

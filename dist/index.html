@@ -4,12 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/birthday.d6708470.css">
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/style.e308ff8e.css">
     <title>TEST</title>
-<script src="/birthday.d6708470.js"></script></head>
+<script src="/style.e308ff8e.js"></script></head>
 
 <body>
-    <main>
+    <main class="container">
         <header>
             <h1>Birthday-app 🎂 </h1>
         </header>
@@ -37,31 +40,32 @@
                         <option value="december">December</option>
                     </select>
                 </div>
-                <div>
+                <div class="addPers">
+                    <button type="button" class="btn add">Add</button>
+                </div>
+                <div class="col-4 col-sm-6">
                     <button type="button" class="reset">Reset</button>
                 </div>
             </form>
         </div>
 
-        <div class="table">
-            <table class="third-container">
+        <div class="table table-responsive">
+            <table id="mytable" class=" table-striped ">
                 <thead>
                     <tr>
-                        <th>Avatar</th>
-                        <th>Lastname</th>
-                        <th>Firstname</th>
-                        <th>Age</th>
-                        <th>Birthday date</th>
-                        <th>Date computation</th>
-                        <th>
+                        <th class="col-9 col-sm-6">Avatar</th>
+                        <th class="col-9 col-sm-6">Lastname</th>
+                        <th class="col-9 col-sm-6">Firstname</th>
+                        <th class="col-9 col-sm-6">Age</th>
+                        <th class="col-9 col-sm-6">Birthday date</th>
+                        <th class="col-9 col-sm-6">Date computation</th>
+                        <th class="col-9 col-sm-6">
                             <button type="button" class="btn">Edit</button>
                         </th>
-                        <th>
-                            <button type="button" class="btn">Delete</button>
+                        <th class="col-9 col-sm-6">
+                            <button type="button" class="btn">Del</button>
                         </th>
-                        <th class="addPers">
-                            <button type="button" class="btn add">Add</button>
-                        </th>
+
                     </tr>
                 </thead>
                 <tbody></tbody>
