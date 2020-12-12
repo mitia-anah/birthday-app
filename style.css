@@ -3,20 +3,11 @@ body {
     max-width: 90%;
     min-width: 90%;
 }
-
-.searchItem {
-    display: flex;
-    flex-direction: column;
-}
-
 .inputSearch {
-    /* display: flex;
+    display: flex;
     flex-direction: row;
-    align-items: center; */
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
     align-items: center;
-    gap: 4rem;
+    justify-content: space-between;
 
 }
 .list-of-data {
@@ -102,20 +93,24 @@ label {
     text-align: center;
 }
 .add {
-   width: 200px;
+   /* width: 200px; */
    border: 1px solid;
    border-radius: 6px;
    border-style: none;
 }
 
-.searchMonth select {
-    width: 100%;
-    padding: 12px;
-    border-radius: 6px;
+.searchMonth select , .searchItem {
+    /* width: 200px; */
+    /* padding: 12px;
+    border-radius: 6px; */
+        display: flex;
+        flex-direction: column;
+        /* justify-content: space-between; */
+
 }
 
 .reset {
-    width: 200px;  
+    /* width: 200px;   */
     padding: 10px;
     background-color: violet;
     border-style: none;
