@@ -1,14 +1,46 @@
 body {
-    margin: auto;
-    max-width: 90%;
-    min-width: 90%;
+    margin : 0;
+    background: #D8EEFE;
+}
+h1 {
+    margin-top: 0;
+}
+.searchForm {
+    /* margin: 1rem; */
 }
 .inputSearch {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+}
 
+.filter-month,
+.filter-name {
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    color: #094067;
+}
+.filter-name-input,
+.filter-month-select {
+    background: #FFFFFE;
+    border-radius: 5px;
+    border-style: none;
+    padding: 0.5rem;
+}
+
+.add-person-btn {
+    background: #EF4565;
+    border-radius: 5px;
+    color: #FFFFFE;
+    padding: 0.6rem;
+    border-style: none;
+    border-style: 0;
+    margin-top: 20px;
+    /* width: 100px; */
 }
 .list-of-data {
     background: linear-gradient(180deg, rgba(70, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
@@ -21,7 +53,7 @@ header {
 
 td img {
     width: 100px;
-    border-radius: 50%;
+    border-radius: 5px;
 }
 
 tr {
@@ -46,20 +78,6 @@ th {
     box-shadow: 15px 15px 15px lightsteelblue;
 }
 
-input {
-    margin-block-end: 1rem;
-    padding: 1rem;
-    margin-block-end: 1rem;
-    border-color: fuchsia;
-    border-radius: 6px;
-}
-
-label {
-    font-size: 1rem;
-    text-transform: uppercase;
-    color: fuchsia;
-    font-weight: 700;
-}
 
 .to-deleteEl p {
     font-size: 2rem;
@@ -99,15 +117,6 @@ label {
    border-style: none;
 }
 
-.searchMonth select , .searchItem {
-    /* width: 200px; */
-    /* padding: 12px;
-    border-radius: 6px; */
-        display: flex;
-        flex-direction: column;
-        /* justify-content: space-between; */
-
-}
 
 .reset {
     /* width: 200px;   */

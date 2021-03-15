@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
     <link rel="stylesheet" href="./style.css">
     <title>TEST</title>
 </head>
@@ -19,13 +19,13 @@
 
         <div class="searchForm">
             <form class="inputSearch">
-                <div class="searchItem">
-                    <label for="filter-name">Filter by Name:</label>
-                    <input type="search" class="myInput" placeholder="Search for names..">
+                <div class="searchItem filter-name">
+                    <label for="filter-name">Filter by name:</label>
+                    <input type="search" class="myInput filter-name-input" placeholder="Type a name..">
                 </div>
-                <div class="searchMonth">
-                    <label for="month">Filter by Month</label>
-                    <select name="month" class="month">
+                <div class="searchMonth filter-month">
+                    <label for="month">Filter by month</label>
+                    <select name="month" class="month filter-month-select" >
                         <option value="january">January</option>
                         <option value="february">February</option>
                         <option value="march">March</option>
@@ -41,7 +41,7 @@
                     </select>
                 </div>
                 <div class="addPers">
-                    <button type="button" class="btn add">Add</button>
+                    <button type="button" class="btn add">Add somebody</button>
                 </div>
                 <div class="col-4 col-sm-6">
                     <button type="button" class="reset">Reset</button>

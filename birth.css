@@ -1,11 +1,41 @@
-main {
-    max-width: 90%;
-    min-width: 90%;
-    margin: auto;
+body {
+    background: #D8EEFE;
+}
+.inputSearch {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
 }
 
+.filter-month,
+.filter-name {
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    color: #094067;
+}
+.filter-name-input,
+.filter-month-select {
+    background: #FFFFFE;
+    border-radius: 5px;
+    border-style: none;
+    padding: 1rem;
+}
 
-
+.add-person-btn {
+    background: #EF4565;
+    border-radius: 5px;
+    color: #FFFFFE;
+    padding: 0.6rem;
+    border-style: none;
+    border-style: 0;
+    margin-top: 20px;
+    /* width: 100px; */
+}
 .list-of-data {
     background: linear-gradient(180deg, rgba(70, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
     /* background-color: rgba(255, 0, 255, 0.5); */
@@ -15,22 +45,22 @@ header {
     text-align: center;
 }
 
-
 td img {
-    width: 100px;
-    border-radius: 50%;
+    width: 100%;
+    border-radius: 5px;
 }
 
 tr {
-    text-transform: uppercase;
+    color: grey;
+   display: flex;
+   flex-direction: row;
     background-color: cadetblue;
 }
 
 th {
     font-size: 16px;
 }
-
-.open{
+.open {
     width: 300px;
     position: fixed;
     margin: auto;
@@ -41,28 +71,6 @@ th {
     border-radius: 8px;
     box-shadow: 15px 15px 15px lightsteelblue;
 }
-/* 
-.popup {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-} */
-
-input {
-    margin-block-end: 1rem;
-    padding: 1rem;
-    margin-block-end: 1rem;
-    border-color: fuchsia;
-    border-radius: 6px;
-}
-
-label {
-    font-size: 1rem;
-    text-transform: uppercase;
-    color: fuchsia;
-    font-weight: 700;
-}
 
 .to-deleteEl p {
     font-size: 2rem;
@@ -72,79 +80,43 @@ label {
     color: red;
 }
 
-q {
-    color: blue;
-}
-
-thead {
-    font-size: 1.25em;
-    background: #fffffe;
-}
-
 .buttons {
     display: flex;
     gap: 1rem;
     border-radius: 6px;
 }
 
-.btn {
-    padding: 10px;
-    border-radius: 50%;
-    background-color: pink;
-    font-weight: 700;
-}
-
 .to-delete {
-    width: 50%;
-    height: 50%;
+    width: 300px;
+   height: 200px;
     background-color: rgb(255, 208, 0, 0.9);
     border-radius: 6px;
-    position: fixed;
-    top: 20%;
-    left: 30%;
 }
 
 .to-deleteEl {
     text-align: center;
 }
 
-.add {
-    padding: 10px;
-    border-radius: 50%;
+.searchItem{
+  
 }
 
-/* .containers {
-    width: 100%;
-    background: #fff;
-    padding: 50px 0;
-}
-
-.third-container {
-    width: 100%;
-} */
-
-.inputSearch {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-
-.searchItem {
-    display: flex;
-    flex-direction: column;
-}
-
-.searchMonth select {
-    width: 100%;
+.searchMonth select , .searchItem {
+    width: 200px; 
     padding: 12px;
     border-radius: 6px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
 }
 
 .reset {
-    width: 150px;
-    margin-block-start: 1rem;
-    padding: 12px;
+    /* width: 200px;   */
+    padding: 10px;
+    background-color: violet;
+    border-style: none;
+    border-radius: 6px;
 }
 
 #myInput {
