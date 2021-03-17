@@ -1,20 +1,32 @@
 body {
     margin : 0;
     background: #D8EEFE;
+    /* padding-top: 3.938rem;
+    padding-inline-start: 20.625rem;
+    padding-inline-end: 20.688rem; */
+}
+header {
+    max-width: 770px;
+    margin: auto;
+    margin-top: 63px;
 }
 h1 {
     margin-top: 0;
-}
-.searchForm {
-    /* margin: 1rem; */
-}
-.inputSearch {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 64px;
+    color: #094067;
 }
 
+.container {
+    max-width: 770px;
+    margin: auto;
+}
+
+.inputSearch {
+   
+}
 .filter-month,
 .filter-name {
     font-family: Rubik;
@@ -23,51 +35,66 @@ h1 {
     font-size: 18px;
     line-height: 21px;
     color: #094067;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
 }
 .filter-name-input,
 .filter-month-select {
     background: #FFFFFE;
     border-radius: 5px;
     border-style: none;
-    padding: 0.5rem;
+    padding: 1rem;
+    width: 264px;
+}
+.filter-month-select {
+    width: 282px;
+}
+.list-wrapper {
+    padding-inline-start: 0;
+}
+.list-of-data {
+    background: #FFFFFE;
+    border-radius: 5px;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-block-start: 3rem;
+    margin-block-end: 2rem;
+    padding: 1rem;
+}
+.picture {
+    flex-grow: 0.5;
+}
+.names-and-date {
+    flex-grow: 1.5;
+}
+.group-btn {
+    flex-grow: 0.2;
+}
+.edit, .delete {
+    border-style: none;
+    background: none;
 }
 
-.add-person-btn {
+.add {
     background: #EF4565;
     border-radius: 5px;
     color: #FFFFFE;
-    padding: 0.6rem;
+    width: 158px;
     border-style: none;
     border-style: 0;
-    margin-top: 20px;
-    /* width: 100px; */
-}
-.list-of-data {
-    background: linear-gradient(180deg, rgba(70, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
-    /* background-color: rgba(255, 0, 255, 0.5); */
-}
-
-header {
-    text-align: center;
-}
-
-td img {
+    margin-top: 34px;
+    padding: 1rem;
+ }
+ img {
     width: 100px;
     border-radius: 5px;
 }
 
-tr {
-    color: grey;
-   display: flex;
-   flex-direction: row;
-    background-color: cadetblue;
-}
-
-th {
-    font-size: 16px;
-}
 .open {
-    width: 300px;
+    /* width: 300px;
     position: fixed;
     margin: auto;
     background: rgb(255, 255, 255);
@@ -75,7 +102,7 @@ th {
     top: 20%;
     left: 30%;
     border-radius: 8px;
-    box-shadow: 15px 15px 15px lightsteelblue;
+    box-shadow: 15px 15px 15px lightsteelblue; */
 }
 
 
@@ -93,39 +120,68 @@ th {
     border-radius: 6px;
 }
 
-.btn {
-    padding: 10px;
-    border-radius: 50%;
-    background-color: pink;
-    font-weight: 700;
-}
 
 .to-delete {
-    width: 300px;
-   height: 200px;
-    background-color: rgb(255, 208, 0, 0.9);
-    border-radius: 6px;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
 }
 
 .to-deleteEl {
     text-align: center;
-}
-.add {
-   /* width: 200px; */
-   border: 1px solid;
-   border-radius: 6px;
-   border-style: none;
-}
-
-
-.reset {
-    /* width: 200px;   */
-    padding: 10px;
-    background-color: violet;
-    border-style: none;
+    background: #fff;
+    position: relative;
+    max-width: 70%;
+    top: 20%;
+    margin: auto;
+    padding: 1rem;
     border-radius: 6px;
 }
 
+.to-edit {
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+}
+.popup {
+    position: relative;
+    top: 10%;
+    max-width: 90%;
+    padding: 5re;
+    margin: auto;
+    background: #fff;
+}
+.inner-popup {
+    display: flex;
+    flex-direction: column;
+    max-width: 50%;
+    padding: 2rem;
+    margin: auto;
+    
+}
+.person-name {
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 57px;
+    color: #094067;
+}
+.input {
+    max-width: 264px;
+    padding: 1rem;
+    background: #D8EEFE;
+    border-radius: 6px;
+    border-style: none;
+}
 #myInput {
     background-image: url('/searchicon.7b498063.svg');
     /* Add a search icon to input */
@@ -143,8 +199,28 @@ th {
     /* Add a grey border */
 }
 
+.popup-label {
+    font-family: Rubik;
+font-style: normal;
+font-weight: 500;
+font-size: 18px;
+line-height: 21px;
+
+color: #094067;
+
+}
 svg {
-    width: 20px;
+    width: 40px;
+}
+
+@media (min-width: 600px) {
+    .inputSearch {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
 }
 
 /*# sourceMappingURL=/style.e308ff8e.css.map */

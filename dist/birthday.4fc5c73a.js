@@ -123,12 +123,12 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.resetBtn = exports.inputSearch = exports.getMonth = exports.myInput = exports.addDataBtn = exports.tbody = exports.dataList = void 0;
+exports.resetBtn = exports.inputSearch = exports.getMonth = exports.myInput = exports.addDataBtn = exports.listOfData = exports.data = void 0;
 // fetching the data from people.json
-const dataList = `https://gist.githubusercontent.com/Pinois/e1c72b75917985dc77f5c808e876b67f/raw/93debb7463fbaaec29622221b8f9e719bd5b119f/birthdayPeople.json`;
-exports.dataList = dataList;
-const tbody = document.querySelector('tbody');
-exports.tbody = tbody;
+const data = `https://gist.githubusercontent.com/Pinois/e1c72b75917985dc77f5c808e876b67f/raw/93debb7463fbaaec29622221b8f9e719bd5b119f/birthdayPeople.json`;
+exports.data = data;
+const listOfData = document.querySelector('ul');
+exports.listOfData = listOfData;
 const addDataBtn = document.querySelector('.add');
 exports.addDataBtn = addDataBtn;
 const myInput = document.querySelector('.myInput');
@@ -187,7 +187,7 @@ function generateLists(people) {
           return "rd";
 
         default:
-          return "th";
+          return "0";
       }
     }
 
@@ -195,32 +195,44 @@ function generateLists(people) {
     const currentDate = new Date(data.birthday);
     const day = currentDate.getDay();
     const month = currentDate.getMonth();
-    const year = currentDate.getFullYear();
-    const fullDate = `${day}${date(day)} / ${month + 1} / ${year}`;
+    const year = currentDate.getFullYear(); // const fullDate = `${day}${date(day)} / ${month + 1} / ${year}`;
+
     const peopleAge = today.getFullYear() - year;
     const futAge = peopleAge;
     const momentYear = today.getFullYear();
     const birthdayDate = new Date(momentYear, month, day);
-    let oneDay = 1000 * 60 * 60 * 24;
-    let dateToday = new Date().getFullYear();
+    let oneDay = 1000 * 60 * 60 * 24; // let dateToday = new Date().getFullYear();
+
     const dayLeft = Math.ceil((birthdayDate.getTime() - today.getTime()) / oneDay);
     var monthNname = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][month];
+    console.log(dayLeft);
     return `
-            <tr class='list-of-data' data-id="${data.id}">
-                <td class="col-8 col-sm-6 picture"><image src="${data.picture}" alt="${data.firstName + ' ' + data.lastName}"/></td>
-                <td class="col-8 col-sm-6 firstName" id="name">${data.firstName}</td>
-                <td class="col-8 col-sm-6 lastName" >${data.lastName}</td>
-                <td class="col-8 col-sm-6">Turns ${futAge} years old on ${day}${date()} of ${monthNname} ${dateToday}</td>
-                <td class="col-8 col-sm-6">${fullDate}</td>
-                <td class="col-8 col-sm-6 birthday" >${dayLeft < 0 ? dayLeft * -1 + " " + "days ago" : "after" + " " + dayLeft + " days"}</td>
-                
-                <td class="col-8 col-sm-6">
-                <p data-placement="top" data-toggle="tooltip" title="Edit">
-                    <button data-id="${data.id}" class="edit btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span>
-                    </button>
-                </td>
-                <td class="col-8 col-sm-6"><button data-id="${data.id}" class="delete"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button></td>
-            </tr>
+            <li class='list-of-data' data-id="${data.id}">
+                <div class="col-8 col-sm-6 picture"><image src="${data.picture}" alt="${data.firstName + ' ' + data.lastName}"/></div>
+                <div class="names-and-date">
+                    <div class="names">
+                        <span class="col-8 col-sm-6 firstName" id="name">${data.firstName}</span>
+                        <span class="col-8 col-sm-6 lastName">${data.lastName}</span>
+                    </div>
+                    <p class="col-8 col-sm-6">Turns ${futAge} on ${monthNname}  ${day}${date()} </p>
+                </div>   
+                <div class="group-btn">
+                    <div class="col-8 col-sm-6 birthday" >in ${dayLeft < 0 ? dayLeft * -1 + "days" : dayLeft + " days"}</div>
+                    <div class="buttons">
+                        <button data-placement="top" data-toggle="tooltip" title="Edit" data-id="${data.id}" class="edit btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 25 25" stroke="#094067">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        </button>
+
+                        <button data-id="${data.id}" class="delete">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#EF4565">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414a2 2 0 001.414.586H19a2 2 0 002-2V7a2 2 0 00-2-2h-8.172a2 2 0 00-1.414.586L3 12z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>            
+            </li>
         `;
   }).join(''); // tbody.innerHTML = html;
 }
@@ -237,13 +249,13 @@ var _generate = require("./generate.js");
 
 // Function that fetch the data from people.json
 async function fetchData() {
-  const response = await fetch(_element.dataList);
-  const data = await response.json();
-  let people = data;
+  const response = await fetch(_element.data);
+  const dataList = await response.json();
+  let people = dataList;
 
   function displayList() {
     const myHtml = (0, _generate.generateLists)(people);
-    _element.tbody.innerHTML = myHtml;
+    _element.listOfData.innerHTML = myHtml;
   }
 
   ;
@@ -251,7 +263,7 @@ async function fetchData() {
 
   function handleEditPerson(e) {
     if (e.target.closest('button.edit')) {
-      const editButton = e.target.closest('tr');
+      const editButton = e.target.closest('ul');
       const editedId = editButton.dataset.id;
       editPerson(editedId);
     }
@@ -260,25 +272,29 @@ async function fetchData() {
 
   const editPerson = async dataId => {
     console.log(people);
-    const findPerson = people.find(person => person.id == dataId);
+    const findPerson = people.find(person => person.id !== dataId);
     console.log(findPerson);
     return new Promise(async function (resolve) {
       const popup = document.createElement('form');
-      popup.classList.add('popup');
+      popup.classList.add('to-edit');
       popup.insertAdjacentHTML('afterbegin', `
             <div class="popup">
-                <label for="picture">Picture</label>
-				<input type="url" name="picture" value="${findPerson.picture}">
-				<label for="last-name">Last name</label>
-				<input type="text" name="lastName" value="${findPerson.lastName}">
-				<label for="first-name">First name</label>
-				<input type="text" name="firstName" value="${findPerson.firstName}">
-				<label for="birthday">Birthday</label>
-				<input type="date" name="birthday"  >
-			</div>
-			<div class="buttons">
-				<button type="cancel" class="btn cancel">Cancel</button>
-				<button type="submit" class="btn submit">Save</button>
+                <div class="inner-popup">
+                    <h4 class="person-name">Edit ${findPerson.firstName} <span>${findPerson.lastName} </h4>
+                    <label class="popup-label" for="picture">Picture</label>
+                    <input class="input" type="url" name="picture" value="${findPerson.picture}">
+                    <label class="popup-label" for="last-name">Last name</label>
+                    <input class="input" type="text" name="lastName" value="${findPerson.lastName}">
+                    <label class="popup-label" for="first-name">First name</label>
+                    <input class="input" type="text" name="firstName" value="${findPerson.firstName}">
+                    <label class="popup-label" for="birthday">Birthday</label>
+                    <input class="input" type="date" name="birthday" >
+                    <div class="buttons">
+                        <button type="cancel" class="btn cancel">Cancel</button>
+                        <button type="submit" class="btn submit">Save</button>
+                    </div>
+                </div>
+                
 			</div>
     	`);
       document.body.appendChild(popup);
@@ -292,13 +308,21 @@ async function fetchData() {
       });
       popup.addEventListener('submit', e => {
         e.preventDefault();
-        findPerson.picture = popup.picture.value, findPerson.lastName = popup.lastName.value, console.log(findPerson.lastName);
-        findPerson.firstName = popup.firstName.value, console.log(findPerson.firstName);
-        findPerson.birthday = popup.birthday.value, displayList(findPerson);
+        findPerson.picture = popup.picture.value;
+        findPerson.lastName = popup.lastName.value;
+        findPerson.firstName = popup.firstName.value;
+
+        const toTimestamp = strDate => {
+          var datum = Date.parse(strDate);
+          return datum / 1000;
+        };
+
+        findPerson.birthday = toTimestamp(popup.birthday.value);
+        displayList(findPerson);
         resolve(popup.remove());
         (0, _destroyPopup.destroyPopup)(popup);
 
-        _element.tbody.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
+        _element.listOfData.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
       }, {
         once: true
       });
@@ -308,7 +332,7 @@ async function fetchData() {
 
   function handleDeletePerson(e) {
     if (e.target.closest('button.delete')) {
-      const deleteData = e.target.closest('tr');
+      const deleteData = e.target.closest('ul');
       const deleteId = deleteData.querySelector('button.delete');
       const deleteBtn = deleteId.dataset.id;
       deleteDataForm(deleteBtn);
@@ -349,7 +373,7 @@ async function fetchData() {
       document.body.appendChild(dataToDelete);
       dataToDelete.classList.add('open');
 
-      _element.tbody.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
+      _element.listOfData.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
     });
   };
 
@@ -401,7 +425,7 @@ async function fetchData() {
         displayList();
         (0, _destroyPopup.destroyPopup)(newData); // form.reset();
 
-        _element.tbody.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
+        _element.listOfData.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
       });
     });
   };
@@ -415,7 +439,7 @@ async function fetchData() {
       displayList();
     }
 
-    _element.tbody.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
+    _element.listOfData.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
   };
 
   const updateLocalStorage = () => {
@@ -424,17 +448,15 @@ async function fetchData() {
 
   const filteredName = () => {
     const listOfInput = _element.myInput.value;
-    console.log(listOfInput); // const filter = listOfInput.toLowerCase();
-
+    console.log(listOfInput);
     const filteredList = people.filter(item => item.firstName.toLowerCase().includes(listOfInput.toLowerCase()));
     console.log(filteredList);
     const HTML = (0, _generate.generateLists)(filteredList);
-    _element.tbody.innerHTML = HTML;
+    _element.listOfData.innerHTML = HTML;
   };
 
   const filteredMonth = () => {
-    const listOfMonth = _element.getMonth.value; // console.log(listOfMonth);
-
+    const listOfMonth = _element.getMonth.value;
     const filteredMonth = people.filter(mth => {
       const fullMonth = new Date(mth.birthday).toLocaleString('en-US', {
         month: 'long'
@@ -442,24 +464,21 @@ async function fetchData() {
       return fullMonth.toLowerCase().includes(listOfMonth);
     });
     const html = (0, _generate.generateLists)(filteredMonth);
-    _element.tbody.innerHTML = html;
-  };
+    _element.listOfData.innerHTML = html;
+  }; // const resetFilters = e => {
+  //     inputSearch.reset();
+  //     displayList();
+  // };
+  // resetBtn.addEventListener('click', resetFilters);
 
-  const resetFilters = e => {
-    _element.inputSearch.reset();
 
-    displayList();
-  };
-
-  _element.resetBtn.addEventListener('click', resetFilters);
-
-  _element.tbody.addEventListener('pleaseUpdateTheList', updateLocalStorage);
+  _element.listOfData.addEventListener('pleaseUpdateTheList', updateLocalStorage);
 
   _element.addDataBtn.addEventListener('click', addNewPerson);
 
-  _element.tbody.addEventListener('click', handleEditPerson);
+  _element.listOfData.addEventListener('click', handleEditPerson);
 
-  _element.tbody.addEventListener('click', handleDeletePerson);
+  _element.listOfData.addEventListener('click', handleDeletePerson);
 
   _element.myInput.addEventListener('input', filteredName);
 
@@ -497,7 +516,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51415" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49999" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

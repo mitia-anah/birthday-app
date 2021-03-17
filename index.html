@@ -12,46 +12,43 @@
 </head>
 
 <body>
+    <header>
+        <h1>Birthday-app</h1>
+    </header>
     <main class="container">
-        <header>
-            <h1>Birthday-app 🎂 </h1>
-        </header>
-
-        <div class="searchForm">
-            <form class="inputSearch">
-                <div class="searchItem filter-name">
-                    <label for="filter-name">Filter by name:</label>
-                    <input type="search" class="myInput filter-name-input" placeholder="Type a name..">
-                </div>
-                <div class="searchMonth filter-month">
-                    <label for="month">Filter by month</label>
-                    <select name="month" class="month filter-month-select" >
-                        <option value="january">January</option>
-                        <option value="february">February</option>
-                        <option value="march">March</option>
-                        <option value="april">April</option>
-                        <option value="may">May</option>
-                        <option value="june">June</option>
-                        <option value="july">July</option>
-                        <option value="august">August</option>
-                        <option value="september">September</option>
-                        <option value="october">Octobre</option>
-                        <option value="november">November</option>
-                        <option value="december">December</option>
-                    </select>
-                </div>
-                <div class="addPers">
-                    <button type="button" class="btn add">Add somebody</button>
-                </div>
-                <div class="col-4 col-sm-6">
-                    <button type="button" class="reset">Reset</button>
-                </div>
-            </form>
-        </div>
+        <form class="inputSearch">
+            <div class="searchItem filter-name">
+                <label for="filter-name">Filter by name:</label>
+                <input type="search" class="myInput filter-name-input" placeholder="Type a name..">
+            </div>
+            <div class="searchMonth filter-month">
+                <label for="month">Filter by month</label>
+                <select name="month" class="month filter-month-select" >
+                    <option value="january">January</option>
+                    <option value="february">February</option>
+                    <option value="march">March</option>
+                    <option value="april">April</option>
+                    <option value="may">May</option>
+                    <option value="june">June</option>
+                    <option value="july">July</option>
+                    <option value="august">August</option>
+                    <option value="september">September</option>
+                    <option value="october">Octobre</option>
+                    <option value="november">November</option>
+                    <option value="december">December</option>
+                </select>
+            </div>
+            <div class="addPers">
+                <button type="button" class="btn add">Add somebody</button>
+            </div>
+            <!-- <div class="col-4 col-sm-6">
+                <button type="button" class="reset">Reset</button>
+            </div> -->
+        </form>
 
         <div class="table table-responsive">
-            <table id="mytable" class=" table-striped ">
-                <thead>
+            <!-- <table id="mytable" class=" table-striped "> -->
+                <!-- <thead>
                     <tr>
                         <th class="col-9 col-sm-6">Avatar</th>
                         <th class="col-9 col-sm-6">Lastname</th>
@@ -67,9 +64,9 @@
                         </th>
 
                     </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+                </thead> -->
+                <ul class="list-wrapper"></ul>
+            <!-- </table> -->
         </div>
     </main>
     <script src="./component/birthday.js" type="module"></script>
