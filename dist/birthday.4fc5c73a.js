@@ -174,7 +174,7 @@ function generateLists(people) {
     return new Date(a.birthday).getMonth() - new Date(b.birthday).getMonth();
   }).map(data => {
     function date(day) {
-      if (day > 3 && day < 21) return "th";
+      if (day > 3 && day < 21) return 'th';
 
       switch (day % 10) {
         case 1:
@@ -187,23 +187,23 @@ function generateLists(people) {
           return "rd";
 
         default:
-          return "0";
+          return "th";
       }
     }
 
     const today = new Date();
     const currentDate = new Date(data.birthday);
     const day = currentDate.getDay();
+    const newDate = currentDate.getDate();
     const month = currentDate.getMonth();
-    const year = currentDate.getFullYear(); // const fullDate = `${day}${date(day)} / ${month + 1} / ${year}`;
-
+    const year = currentDate.getFullYear();
     const peopleAge = today.getFullYear() - year;
     const futAge = peopleAge;
     const momentYear = today.getFullYear();
     const birthdayDate = new Date(momentYear, month, day);
-    let oneDay = 1000 * 60 * 60 * 24; // let dateToday = new Date().getFullYear();
-
+    let oneDay = 1000 * 60 * 60 * 24;
     const dayLeft = Math.ceil((birthdayDate.getTime() - today.getTime()) / oneDay);
+    const birthdayInDays = dayLeft < 0 ? 365 + dayLeft : dayLeft;
     var monthNname = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][month];
     console.log(dayLeft);
     return `
@@ -214,10 +214,10 @@ function generateLists(people) {
                         <span class="col-8 col-sm-6 firstName" id="name">${data.firstName}</span>
                         <span class="col-8 col-sm-6 lastName">${data.lastName}</span>
                     </div>
-                    <p class="col-8 col-sm-6">Turns ${futAge} on ${monthNname}  ${day}${date()} </p>
+                    <p class="date">Turns <span class="future-age">${futAge}</span> on ${monthNname}  ${day}<sup>${date(newDate)}</sup> </p>
                 </div>   
                 <div class="group-btn">
-                    <div class="col-8 col-sm-6 birthday" >in ${dayLeft < 0 ? dayLeft * -1 + "days" : dayLeft + " days"}</div>
+                    <div class="birthday-in-days">in <span>${birthdayInDays}</span> days</div>
                     <div class="buttons">
                         <button data-placement="top" data-toggle="tooltip" title="Edit" data-id="${data.id}" class="edit btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 25 25" stroke="#094067">
@@ -275,31 +275,42 @@ async function fetchData() {
     const findPerson = people.find(person => person.id !== dataId);
     console.log(findPerson);
     return new Promise(async function (resolve) {
+      const birthdayDate = new Date(findPerson.birthday).toISOString().slice(0, 10);
+      const maxDate = new Date().toISOString().slice(0, 10);
       const popup = document.createElement('form');
       popup.classList.add('to-edit');
       popup.insertAdjacentHTML('afterbegin', `
             <div class="popup">
                 <div class="inner-popup">
                     <h4 class="person-name">Edit ${findPerson.firstName} <span>${findPerson.lastName} </h4>
-                    <label class="popup-label" for="picture">Picture</label>
-                    <input class="input" type="url" name="picture" value="${findPerson.picture}">
-                    <label class="popup-label" for="last-name">Last name</label>
-                    <input class="input" type="text" name="lastName" value="${findPerson.lastName}">
-                    <label class="popup-label" for="first-name">First name</label>
-                    <input class="input" type="text" name="firstName" value="${findPerson.firstName}">
-                    <label class="popup-label" for="birthday">Birthday</label>
-                    <input class="input" type="date" name="birthday" >
+                    <label class="edit-label" for="picture">Picture</label>
+                    <input class="edit-input" type="url" name="picture" value="${findPerson.picture}">
+                    <label class="edit-label" for="last-name">Last name</label>
+                    <input class="edit-input" type="text" name="lastName" value="${findPerson.lastName}">
+                    <label class="edit-label" for="first-name">First name</label>
+                    <input class="edit-input" type="text" name="firstName" value="${findPerson.firstName}">
+                    <label class="edit-label" for="birthday">Birthday</label>
+                    <input class="edit-input" type="date" name="birthday" value="${birthdayDate}" max="${maxDate}" >
                     <div class="buttons">
-                        <button type="cancel" class="btn cancel">Cancel</button>
                         <button type="submit" class="btn submit">Save</button>
+                        <button type="cancel" class="btn cancel">Cancel</button>
                     </div>
+                    <button class="close-btn"> close</button>
                 </div>
                 
 			</div>
     	`);
       document.body.appendChild(popup);
       await (0, _destroyPopup.wait)(50);
-      popup.classList.add('open'); // Reject the change
+      popup.classList.add('open');
+      document.body.style.overflow = 'hidden'; // When the user clicks anywhere outside of the modal, close it
+
+      window.onclick = function (event) {
+        if (event.target == popup) {
+          popup.style.display = "none";
+        }
+      }; // Reject the change
+
 
       window.addEventListener('click', e => {
         if (e.target.closest('button.cancel')) {
@@ -354,6 +365,7 @@ async function fetchData() {
                 </p>
                 <button class="remove">Yes</button>
                 <button type="cancel" class="cancel">No</button>
+                <button class="close-btn"> close</button>
 			</div>
         `);
       window.addEventListener('click', e => {
@@ -362,6 +374,8 @@ async function fetchData() {
         }
       });
       window.addEventListener('click', e => {
+        e.preventDefault();
+
         if (e.target.closest('button.remove')) {
           const removeData = people.filter(el => el.id != idToDelete);
           const deleteFindData = removeData;
@@ -372,6 +386,14 @@ async function fetchData() {
       });
       document.body.appendChild(dataToDelete);
       dataToDelete.classList.add('open');
+      document.body.style.overflow = "hidden"; // When the user clicks anywhere outside of the modal, close it
+
+      window.onclick = function (event) {
+        if (event.target == dataToDelete) {
+          dataToDelete.style.display = "none";
+        }
+      }; // document.body.style.overflow="visible"
+
 
       _element.listOfData.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
     });
@@ -386,25 +408,37 @@ async function fetchData() {
   const addData = id => {
     return new Promise(async function (resolve) {
       const newData = document.createElement('form');
-      newData.classList.add('popup');
+      newData.classList.add('add-person');
       newData.insertAdjacentHTML('afterbegin', `
-            <div class="popup">
-                <label for="picture">Picture</label>
-                <input type="url" id="avatar" name="avatar" required>
-                <label for="last-name">Last name</label>
-                <input type="text" id="lastName" name="lastname" required>
-                <label for="first-name">First name</label>
-                <input itype="text" id="firstName" name="firstname" required>
-                <label for="birthday">Birthday</label>
-                <input type="date" id="birthday" name="birthdayDate" placeholder="dd/mm/yy"required>
-            </div>
-            <div>
-                <button type="cancel" class="btn cancel">Cancel</button>
-                <button type="submit" class=" btn submit">Save</button>
-            </div>
+            <div class="to-add">
+                <div class="inner-popup">
+                    <h4 class="add-title">Add somebody</h4>
+                    <label  class="add-label"for="picture">Picture</label>
+                    <input class="add-input" placeholder="Enter Url.." type="url" id="avatar" name="avatar" required>
+                    <label class="add-label" for="last-name">Last name</label>
+                    <input class="add-input" placeholder="What's your last name?" type="text" id="lastName" name="lastname" required>
+                    <label class="add-label" for="first-name">First name</label>
+                    <input class="add-input" placeholder="What's your first name? " type="text" id="firstName" name="firstname" required>
+                    <label class="add-label" for="birthday">Birthday</label>
+                    <input class="add-input" placeholder="Enter your birthday " type="date" id="birthday" name="birthdayDate" placeholder="dd/mm/yy"required>
+                    <div>
+                        <button type="cancel" class="btn cancel">Cancel</button>
+                        <button type="submit" class=" btn submit">Save</button>
+                    </div>
+                    <button class="close-btn"> close</button>
+                </div>
+            </div>  
         `);
       document.body.appendChild(newData);
       newData.classList.add('open');
+      document.body.style.overflow = "hidden"; // When the user clicks anywhere outside of the modal, close it
+
+      window.onclick = function (event) {
+        if (event.target == newData) {
+          newData.style.display = "none";
+        }
+      };
+
       window.addEventListener('click', e => {
         if (e.target.closest('button.cancel')) {
           (0, _destroyPopup.destroyPopup)(newData);
@@ -429,6 +463,12 @@ async function fetchData() {
       });
     });
   };
+
+  function closeModal() {
+    const toClose = document.getElementsByClassName('close-modal');
+    const modaleToclose = toClose.querySelector('button.close-modal');
+    console.log(modaleToclose);
+  }
 
   const initLocalStorage = () => {
     //Check if there is something in the local storage
@@ -482,8 +522,10 @@ async function fetchData() {
 
   _element.myInput.addEventListener('input', filteredName);
 
-  _element.getMonth.addEventListener('input', filteredMonth);
+  _element.getMonth.addEventListener('input', filteredMonth); // onclick="document.getElementById('id01').style.display='block'
 
+
+  modaleToclose.addEventListener('click', closeModal);
   initLocalStorage();
 }
 
@@ -516,7 +558,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49999" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52237" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

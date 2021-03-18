@@ -1,6 +1,7 @@
-import { data, listWrapper, listOfData, addDataBtn, myInput, getMonth, inputSearch, resetBtn } from './element.js';
+import { data, listOfData, addDataBtn, myInput, getMonth, resetBtn } from './element.js';
 import { wait, destroyPopup } from './destroyPopup.js';
 import { generateLists } from './generate.js'
+
 
 // Function that fetch the data from people.json
 async function fetchData() {
@@ -28,7 +29,9 @@ async function fetchData() {
         console.log(people);
         const findPerson = people.find(person => person.id !== dataId);
         console.log(findPerson);
-        return new Promise(async function (resolve) {
+        return new Promise(async function (resolve) {            
+            const birthdayDate = new Date(findPerson.birthday).toISOString().slice(0, 10);  
+            const maxDate = new Date().toISOString().slice(0, 10)
             const popup = document.createElement('form');
             popup.classList.add('to-edit');
             popup.insertAdjacentHTML('afterbegin',
@@ -36,18 +39,19 @@ async function fetchData() {
             <div class="popup">
                 <div class="inner-popup">
                     <h4 class="person-name">Edit ${findPerson.firstName} <span>${findPerson.lastName} </h4>
-                    <label class="popup-label" for="picture">Picture</label>
-                    <input class="input" type="url" name="picture" value="${findPerson.picture}">
-                    <label class="popup-label" for="last-name">Last name</label>
-                    <input class="input" type="text" name="lastName" value="${findPerson.lastName}">
-                    <label class="popup-label" for="first-name">First name</label>
-                    <input class="input" type="text" name="firstName" value="${findPerson.firstName}">
-                    <label class="popup-label" for="birthday">Birthday</label>
-                    <input class="input" type="date" name="birthday" >
+                    <label class="edit-label" for="picture">Picture</label>
+                    <input class="edit-input" type="url" name="picture" value="${findPerson.picture}">
+                    <label class="edit-label" for="last-name">Last name</label>
+                    <input class="edit-input" type="text" name="lastName" value="${findPerson.lastName}">
+                    <label class="edit-label" for="first-name">First name</label>
+                    <input class="edit-input" type="text" name="firstName" value="${findPerson.firstName}">
+                    <label class="edit-label" for="birthday">Birthday</label>
+                    <input class="edit-input" type="date" name="birthday" value="${birthdayDate}" max="${maxDate}" >
                     <div class="buttons">
-                        <button type="cancel" class="btn cancel">Cancel</button>
                         <button type="submit" class="btn submit">Save</button>
+                        <button type="cancel" class="btn cancel">Cancel</button>
                     </div>
+                    <button class="close-btn"> close</button>
                 </div>
                 
 			</div>
@@ -56,7 +60,14 @@ async function fetchData() {
             document.body.appendChild(popup);
             await wait(50);
             popup.classList.add('open');
-
+            document.body.style.overflow = 'hidden';
+           
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == popup) {
+                popup.style.display = "none";
+                }
+                }
             // Reject the change
             window.addEventListener('click', e => {
                 if (e.target.closest('button.cancel')) {
@@ -108,6 +119,7 @@ async function fetchData() {
                 </p>
                 <button class="remove">Yes</button>
                 <button type="cancel" class="cancel">No</button>
+                <button class="close-btn"> close</button>
 			</div>
         `);
 
@@ -118,6 +130,7 @@ async function fetchData() {
             });
 
             window.addEventListener('click', e => {
+                e.preventDefault()
                 if (e.target.closest('button.remove')) {
                     const removeData = people.filter(el => el.id != idToDelete);
                     const deleteFindData = removeData;
@@ -128,6 +141,14 @@ async function fetchData() {
             })
             document.body.appendChild(dataToDelete);
             dataToDelete.classList.add('open');
+            document.body.style.overflow="hidden";
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == dataToDelete) {
+                dataToDelete.style.display = "none";
+                }
+                }
+            // document.body.style.overflow="visible"
             listOfData.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
         });
     };
@@ -138,30 +159,42 @@ async function fetchData() {
         }
     };
 
+
     const addData = id => {
         return new Promise(async function (resolve) {
             const newData = document.createElement('form');
-            newData.classList.add('popup');
+            newData.classList.add('add-person');
             newData.insertAdjacentHTML('afterbegin',
                 `
-            <div class="popup">
-                <label for="picture">Picture</label>
-                <input type="url" id="avatar" name="avatar" required>
-                <label for="last-name">Last name</label>
-                <input type="text" id="lastName" name="lastname" required>
-                <label for="first-name">First name</label>
-                <input itype="text" id="firstName" name="firstname" required>
-                <label for="birthday">Birthday</label>
-                <input type="date" id="birthday" name="birthdayDate" placeholder="dd/mm/yy"required>
-            </div>
-            <div>
-                <button type="cancel" class="btn cancel">Cancel</button>
-                <button type="submit" class=" btn submit">Save</button>
-            </div>
+            <div class="to-add">
+                <div class="inner-popup">
+                    <h4 class="add-title">Add somebody</h4>
+                    <label  class="add-label"for="picture">Picture</label>
+                    <input class="add-input" placeholder="Enter Url.." type="url" id="avatar" name="avatar" required>
+                    <label class="add-label" for="last-name">Last name</label>
+                    <input class="add-input" placeholder="What's your last name?" type="text" id="lastName" name="lastname" required>
+                    <label class="add-label" for="first-name">First name</label>
+                    <input class="add-input" placeholder="What's your first name? " type="text" id="firstName" name="firstname" required>
+                    <label class="add-label" for="birthday">Birthday</label>
+                    <input class="add-input" placeholder="Enter your birthday " type="date" id="birthday" name="birthdayDate" placeholder="dd/mm/yy"required>
+                    <div>
+                        <button type="cancel" class="btn cancel">Cancel</button>
+                        <button type="submit" class=" btn submit">Save</button>
+                    </div>
+                    <button class="close-btn"> close</button>
+                </div>
+            </div>  
         `);
             document.body.appendChild(newData);
             newData.classList.add('open');
+            document.body.style.overflow="hidden"
 
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+            if (event.target == newData) {
+            newData.style.display = "none";
+            }
+            }
             window.addEventListener('click', e => {
                 if (e.target.closest('button.cancel')) {
                     destroyPopup(newData);
@@ -190,6 +223,11 @@ async function fetchData() {
         })
     };
 
+    function closeModal() {
+        const toClose =document.getElementsByClassName('close-modal')
+        const modaleToclose = toClose.querySelector('button.close-modal');
+        console.log(modaleToclose);
+    }
     const initLocalStorage = () => {
         //Check if there is something in the local storage
         const lsData = JSON.parse(localStorage.getItem('people'));
@@ -235,6 +273,8 @@ async function fetchData() {
     listOfData.addEventListener('click', handleDeletePerson);
     myInput.addEventListener('input', filteredName);
     getMonth.addEventListener('input', filteredMonth);
+    // onclick="document.getElementById('id01').style.display='block'
+    modaleToclose.addEventListener('click', closeModal)
     initLocalStorage();
 }
 
