@@ -1,22 +1,24 @@
-export function generateLists(people) {
-    return people.sort(function (a, b) {
-        return new Date(a.birthday).getMonth() - new Date(b.birthday).getMonth()
-    })
-        .map(data => {
-            function date(day) {
-                if (day > 3 && day < 21) return 'th';
-                switch (day % 10) {
-                  case 1:  return "st";
-                  case 2:  return "nd";
-                  case 3:  return "rd";
-                  default: return "th";
-                }
-            }
+import { format } from "date-fns";
 
+export function generateLists(people) { 
+    return people
+        .sort(function (a, b) {
+            function peopleBirthday(month, day) {
+                let today = new Date(),
+                currentYear = today.getFullYear(),
+                next = new Date(currentYear, month - 1, day);
+                today.setHours(0, 0, 0, 0);
+                if (today > next) next.setFullYear(currentYear + 1);
+                return Math.round((next - today) / 8.64e7);
+            }
+            let birthdayA = peopleBirthday(new Date(a.birthday).getMonth()+1,new Date(a.birthday).getDate());
+            let birthdayB = peopleBirthday(new Date(b.birthday).getMonth()+1,new Date(b.birthday).getDate());
+            return birthdayA - birthdayB;
+        })
+        .map(data => {
             const today = new Date();
             const currentDate = new Date(data.birthday);
             const day = currentDate.getDay();
-            const newDate = currentDate.getDate()
             const month = currentDate.getMonth();
             const year = currentDate.getFullYear();
             const peopleAge = today.getFullYear() - year;
@@ -35,8 +37,6 @@ export function generateLists(people) {
                 "July", "August", "September", "October", "November", "December"
             ][month];
 
-            console.log(dayLeft)
-
             return `
             <li class='list-of-data' data-id="${data.id}">
                 <div class="col-8 col-sm-6 picture"><image src="${data.picture}" alt="${data.firstName + ' ' + data.lastName}"/></div>
@@ -45,7 +45,9 @@ export function generateLists(people) {
                         <span class="col-8 col-sm-6 firstName" id="name">${data.firstName}</span>
                         <span class="col-8 col-sm-6 lastName">${data.lastName}</span>
                     </div>
-                    <p class="date">Turns <span class="future-age">${futAge}</span> on ${monthNname}  ${day}<sup>${date(newDate)}</sup> </p>
+                    <p class="date">Turns <span class="future-age">${futAge}</span> on ${monthNname}<span> ${format(new Date(data.birthday), "do")}
+                    </span>
+                    </p>
                 </div>   
                 <div class="group-btn">
                     <div class="birthday-in-days">in <span>${birthdayInDays}</span> days</div>

@@ -112,18 +112,21 @@ h1 {
     border-radius: 5px;
 }
 
-.open {
-    /* width: 300px;
-    position: fixed;
-    margin: auto;
-    background: rgb(255, 255, 255);
-    border: 2px solid lightskyblue;
-    top: 20%;
-    left: 30%;
-    border-radius: 8px;
-    box-shadow: 15px 15px 15px lightsteelblue; */
+.edit-close-btn,
+.add-close-btn {
+    right: 5%;
+    position: absolute;
+    background: none;
+    border-style: none;
 }
-
+.delete-close-btn {
+    position: absolute;
+    top: 10%;
+    right: 5%;
+    background: none;
+    background: none;
+    border-style: none;
+}
 
 .to-deleteEl p {
     font-size: 2rem;
@@ -223,6 +226,7 @@ h1 {
     border: 1px solid #ddd;
     /* Add a grey border */
 }
+.remove,
 .submit {
     background: #EF4565;
     border-radius: 5px;

@@ -51,7 +51,11 @@ async function fetchData() {
                         <button type="submit" class="btn submit">Save</button>
                         <button type="cancel" class="btn cancel">Cancel</button>
                     </div>
-                    <button class="close-btn"> close</button>
+                    <button class="edit-close-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
                 </div>
                 
 			</div>
@@ -119,7 +123,11 @@ async function fetchData() {
                 </p>
                 <button class="remove">Yes</button>
                 <button type="cancel" class="cancel">No</button>
-                <button class="close-btn"> close</button>
+                <button class="delete-close-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                </button>
 			</div>
         `);
 
@@ -147,8 +155,8 @@ async function fetchData() {
                 if (event.target == dataToDelete) {
                 dataToDelete.style.display = "none";
                 }
-                }
-            // document.body.style.overflow="visible"
+            }
+            document.body.style.overflow="visible"
             listOfData.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
         });
     };
@@ -181,7 +189,11 @@ async function fetchData() {
                         <button type="cancel" class="btn cancel">Cancel</button>
                         <button type="submit" class=" btn submit">Save</button>
                     </div>
-                    <button class="close-btn"> close</button>
+                    <button class="add-close-btn close-modal">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
                 </div>
             </div>  
         `);
@@ -223,11 +235,6 @@ async function fetchData() {
         })
     };
 
-    function closeModal() {
-        const toClose =document.getElementsByClassName('close-modal')
-        const modaleToclose = toClose.querySelector('button.close-modal');
-        console.log(modaleToclose);
-    }
     const initLocalStorage = () => {
         //Check if there is something in the local storage
         const lsData = JSON.parse(localStorage.getItem('people'));
@@ -272,9 +279,7 @@ async function fetchData() {
     listOfData.addEventListener('click', handleEditPerson);
     listOfData.addEventListener('click', handleDeletePerson);
     myInput.addEventListener('input', filteredName);
-    getMonth.addEventListener('input', filteredMonth);
-    // onclick="document.getElementById('id01').style.display='block'
-    modaleToclose.addEventListener('click', closeModal)
+    getMonth.addEventListener('input', filteredMonth);   
     initLocalStorage();
 }
 
