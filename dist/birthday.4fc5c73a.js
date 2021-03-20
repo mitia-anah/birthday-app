@@ -3267,14 +3267,13 @@ async function fetchData() {
     localStorage.setItem('people', JSON.stringify(people));
   };
 
-  const filteredName = () => {
+  const filteredName = people => {
     const listOfInput = _element.myInput.value;
     const filteredList = people.filter(item => item.firstName.toLowerCase().includes(listOfInput.toLowerCase()));
-    const HTML = (0, _generate.generateLists)(filteredList);
-    _element.listOfData.innerHTML = HTML;
+    return filteredList;
   };
 
-  const filteredMonth = () => {
+  const filteredMonth = people => {
     const listOfMonth = _element.getMonth.value;
     const filteredMonth = people.filter(mth => {
       const fullMonth = new Date(mth.birthday).toLocaleString('en-US', {
@@ -3282,9 +3281,15 @@ async function fetchData() {
       });
       return fullMonth.toLowerCase().includes(listOfMonth);
     });
-    const html = (0, _generate.generateLists)(filteredMonth);
-    _element.listOfData.innerHTML = html;
-  }; // const resetFilters = e => {
+    return filteredMonth;
+  };
+
+  function filteredMonthAndName() {
+    const nameFiltered = filteredName(people);
+    const MonthFiltered = filteredMonth(nameFiltered);
+    const HTML = (0, _generate.generateLists)(MonthFiltered);
+    _element.listOfData.innerHTML = HTML;
+  } // const resetFilters = e => {
   //     inputSearch.reset();
   //     displayList();
   // };
@@ -3299,9 +3304,9 @@ async function fetchData() {
 
   _element.listOfData.addEventListener('click', handleDeletePerson);
 
-  _element.myInput.addEventListener('input', filteredName);
+  _element.myInput.addEventListener('input', filteredMonthAndName);
 
-  _element.getMonth.addEventListener('input', filteredMonth);
+  _element.getMonth.addEventListener('input', filteredMonthAndName);
 
   initLocalStorage();
 }
@@ -3335,7 +3340,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50096" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50257" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

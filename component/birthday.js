@@ -248,22 +248,27 @@ async function fetchData() {
         localStorage.setItem('people', JSON.stringify(people));
     };
 
-    const filteredName = () => {
+    const filteredName = (people) => {
         const listOfInput = myInput.value;
         const filteredList = people.filter(item => item.firstName.toLowerCase().includes(listOfInput.toLowerCase()));
-        const HTML = generateLists(filteredList);
-        listOfData.innerHTML = HTML;
+       return filteredList;
     };
 
-    const filteredMonth = () => {
+    const filteredMonth = (people) => {
         const listOfMonth = getMonth.value;
         const filteredMonth = people.filter(mth => {
             const fullMonth = new Date(mth.birthday).toLocaleString('en-US', { month: 'long' });
             return fullMonth.toLowerCase().includes(listOfMonth);
         });
-        const html = generateLists(filteredMonth);
-        listOfData.innerHTML = html;
+        return filteredMonth
     };
+
+    function filteredMonthAndName() {
+        const nameFiltered = filteredName(people)
+        const MonthFiltered = filteredMonth(nameFiltered) 
+        const HTML = generateLists(MonthFiltered);
+        listOfData.innerHTML = HTML;
+    }
 
     // const resetFilters = e => {
     //     inputSearch.reset();
@@ -275,8 +280,8 @@ async function fetchData() {
     addDataBtn.addEventListener('click', addNewPerson);
     listOfData.addEventListener('click', handleEditPerson);
     listOfData.addEventListener('click', handleDeletePerson);
-    myInput.addEventListener('input', filteredName);
-    getMonth.addEventListener('input', filteredMonth);   
+    myInput.addEventListener('input', filteredMonthAndName);
+    getMonth.addEventListener('input', filteredMonthAndName);   
     initLocalStorage();
 }
 

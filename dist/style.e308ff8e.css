@@ -70,6 +70,12 @@ h1 {
 .names-and-date {
     flex-grow: 1.5;
 }
+.names {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+}
 .firstName,
 .lastName {
     font-family: Rubik;
