@@ -184,7 +184,7 @@ async function fetchData() {
                     <label class="add-label" for="first-name">First name</label>
                     <input class="add-input" placeholder="What's your first name? " type="text" id="firstName" name="firstname" required>
                     <label class="add-label" for="birthday">Birthday</label>
-                    <input class="add-input" placeholder="Enter your birthday " type="date" id="birthday" name="birthdayDate" placeholder="dd/mm/yy"required>
+                    <input class="add-input" placeholder="Enter your birthday " type="date" id="birthday" name="birthdayDate" required>
                     <div>
                         <button type="cancel" class="btn cancel">Cancel</button>
                         <button type="submit" class=" btn submit">Save</button>
@@ -226,7 +226,6 @@ async function fetchData() {
                     };
                     people.push(newPerson);
                     destroyPopup(newData);
-                    console.log(people);
                     displayList();
                     // form.reset();
                     listOfData.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));

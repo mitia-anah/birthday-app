@@ -2991,7 +2991,7 @@ function generateLists(people) {
                     </p>
                 </div>   
                 <div class="group-btn">
-                    <div class="birthday-in-days">in <span>${birthdayInDays}</span> days</div>
+                    <div class="birthday-in-days"><span>${birthdayInDays > 1 ? `in ${birthdayInDays} days` : birthdayInDays < 1 ? 'Happy Birthday' : `${birthdayInDays} days`}</span></div>
                     <div class="buttons">
                         <button data-placement="top" data-toggle="tooltip" title="Edit" data-id="${data.id}" class="edit btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 25 25" stroke="#094067">
@@ -3203,7 +3203,7 @@ async function fetchData() {
                     <label class="add-label" for="first-name">First name</label>
                     <input class="add-input" placeholder="What's your first name? " type="text" id="firstName" name="firstname" required>
                     <label class="add-label" for="birthday">Birthday</label>
-                    <input class="add-input" placeholder="Enter your birthday " type="date" id="birthday" name="birthdayDate" placeholder="dd/mm/yy"required>
+                    <input class="add-input" placeholder="Enter your birthday " type="date" id="birthday" name="birthdayDate" required>
                     <div>
                         <button type="cancel" class="btn cancel">Cancel</button>
                         <button type="submit" class=" btn submit">Save</button>
@@ -3243,7 +3243,6 @@ async function fetchData() {
         };
         people.push(newPerson);
         (0, _destroyPopup.destroyPopup)(newData);
-        console.log(people);
         displayList(); // form.reset();
 
         _element.listOfData.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));

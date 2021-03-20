@@ -32,7 +32,6 @@ export function generateLists(people) {
 
             const dayLeft = Math.ceil((birthdayDate.getTime() - today.getTime()) / (oneDay));
             const birthdayInDays = dayLeft < 0 ? 365 + dayLeft : dayLeft; 
-
             var monthNname = ["January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"
             ][month];
@@ -50,7 +49,7 @@ export function generateLists(people) {
                     </p>
                 </div>   
                 <div class="group-btn">
-                    <div class="birthday-in-days">in <span>${birthdayInDays}</span> days</div>
+                    <div class="birthday-in-days"><span>${birthdayInDays > 1 ? `in ${birthdayInDays} days` : birthdayInDays < 1 ? 'Happy Birthday' : `${birthdayInDays} days` }</span></div>
                     <div class="buttons">
                         <button data-placement="top" data-toggle="tooltip" title="Edit" data-id="${data.id}" class="edit btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 25 25" stroke="#094067">
