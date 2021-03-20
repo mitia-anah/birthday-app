@@ -225,10 +225,9 @@ async function fetchData() {
                         id: Date.now()
                     };
                     people.push(newPerson);
+                    destroyPopup(newData);
                     console.log(people);
                     displayList();
-                    destroyPopup(newData);
-
                     // form.reset();
                     listOfData.dispatchEvent(new CustomEvent('pleaseUpdateTheList'));
                 });
@@ -251,9 +250,7 @@ async function fetchData() {
 
     const filteredName = () => {
         const listOfInput = myInput.value;
-        console.log(listOfInput);
         const filteredList = people.filter(item => item.firstName.toLowerCase().includes(listOfInput.toLowerCase()));
-        console.log(filteredList);
         const HTML = generateLists(filteredList);
         listOfData.innerHTML = HTML;
     };
