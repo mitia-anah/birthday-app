@@ -272,3 +272,6 @@ svg {
     }
     
 }
+body.showScrollBar {
+    overflow-y: visible;
+}

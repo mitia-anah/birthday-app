@@ -272,5 +272,8 @@ svg {
     }
     
 }
+body.showScrollBar {
+    overflow-y: visible;
+}
 
 /*# sourceMappingURL=/style.e308ff8e.css.map */

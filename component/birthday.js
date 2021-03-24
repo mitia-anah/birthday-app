@@ -77,11 +77,10 @@ async function fetchData() {
             window.addEventListener('click', e => {
                 if (e.target.closest('button.cancel')) {
                     destroyPopup(popup);
-                    document.body.style.overflow = "visible";
+                    document.body.classList.add("showScrollBar")
                 } else if (e.target.closest('button.delete-close-btn')) {
                     destroyPopup(popup);
-                    document.body.style.overflow = "visible";
-                    console.log("we deleted somte");
+                    document.body.classList.add("showScrollBar")
                 }
             })
 
@@ -119,8 +118,6 @@ async function fetchData() {
     };
 
     const deleteDataForm = (idToDelete) => {
-        // const deleteButton = people.filter(el => el.id !== idToDelete);
-        console.log(idToDelete);
         return new Promise(async function (resolve) {
             const dataToDelete = document.createElement('div');
             dataToDelete.classList.add('to-delete');
@@ -143,8 +140,11 @@ async function fetchData() {
             window.addEventListener('click', e => {
                 if (e.target.closest('button.cancel')) {
                     destroyPopup(dataToDelete);
+                    document.body.classList.add("showScrollBar")
                 } else if (e.target.closest('button.delete-close-btn')) {
                     destroyPopup(dataToDelete);
+                    document.body.classList.add("showScrollBar")
+                    
                 }
             });
 
@@ -221,8 +221,10 @@ async function fetchData() {
             window.addEventListener('click', e => {
                 if (e.target.closest('button.cancel')) {
                     destroyPopup(newData);
+                    document.body.classList.add("showScrollBar")
                 } else if (e.target.closest('button.delete-close-btn')) {
                     destroyPopup(newData);
+                    document.body.classList.add("showScrollBar")
                 }
             })
 

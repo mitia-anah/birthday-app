@@ -21,8 +21,7 @@ export function generateLists(people) {
             let birthdayDate = personBirthday.toISOString().slice(4)
             const momentYear = today.getFullYear();
             birthdayDate = momentYear + birthdayDate
-            console.log(birthdayDate);
-            const day = personBirthday.getDay();
+
             const month = personBirthday.getMonth();
             const year = personBirthday.getFullYear();
             const peopleAge = today.getFullYear() - year;
@@ -51,7 +50,7 @@ export function generateLists(people) {
                     </p>
                 </div>   
                 <div class="group-btn">
-                    <div class="birthday-in-days"><span>${birthdayInDays }days</span></div>
+                    <div class="birthday-in-days"><span>${"in" + " " + birthdayInDays + " " + "days"}</span></div>
                     <div class="buttons">
                         <button data-placement="top" data-toggle="tooltip" title="Edit" data-id="${data.id}" class="edit btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 25 25" stroke="#094067">
