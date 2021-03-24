@@ -1,4 +1,4 @@
-import format  from "date-fns/format";
+import { format } from "date-fns";
 
 export function generateLists(people) { 
     return people
@@ -17,24 +17,25 @@ export function generateLists(people) {
         })
         .map(data => {
             const today = new Date();
-            const currentDate = new Date(data.birthday);
-            const day = currentDate.getDay();
-            const month = currentDate.getMonth();
-            const year = currentDate.getFullYear();
+            const personBirthday = new Date(data.birthday);
+            const day = personBirthday.getDay();
+            const month = personBirthday.getMonth();
+            const year = personBirthday.getFullYear();
             const peopleAge = today.getFullYear() - year;
-            const futAge = peopleAge;
+            const futureAge = peopleAge;
 
             const momentYear = today.getFullYear();
             const birthdayDate = new Date(momentYear, month, day);
             let oneDay = 1000 * 60 * 60 * 24;
-
             
-
-            const dayLeft = Math.ceil((birthdayDate.getTime() - today.getTime()) / (oneDay));
+            
+            const dayLeft = Math.round((birthdayDate.getTime() - today.getTime()) / (oneDay));
             const birthdayInDays = dayLeft < 0 ? 365 + dayLeft : dayLeft; 
+            
             var monthNname = ["January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"
             ][month];
+            const formatedDate = format(new Date(personBirthday), "do")
 
             return `
             <li class='list-of-data' data-id="${data.id}">
@@ -44,12 +45,12 @@ export function generateLists(people) {
                         <span class="col-8 col-sm-6 firstName" id="name">${data.firstName}</span>
                         <span class="col-8 col-sm-6 lastName">${data.lastName}</span>
                     </div>
-                    <p class="date">Turns <span class="future-age">${futAge}</span> on ${monthNname}<span> ${format(new Date(data.birthday), "do")}
+                    <p class="date">Turns <span class="future-age">${futureAge}</span> on ${monthNname}<span> ${formatedDate}
                     </span>
                     </p>
                 </div>   
                 <div class="group-btn">
-                    <div class="birthday-in-days"><span>${birthdayInDays > 1 ? `in ${birthdayInDays} days` : birthdayInDays < 1 ? 'Happy Birthday' : `${birthdayInDays} days` }</span></div>
+                    <div class="birthday-in-days"><span>${birthdayInDays }days</span></div>
                     <div class="buttons">
                         <button data-placement="top" data-toggle="tooltip" title="Edit" data-id="${data.id}" class="edit btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 25 25" stroke="#094067">

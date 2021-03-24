@@ -11,23 +11,24 @@ async function fetchData() {
 
     function displayList() {
         const myHtml = generateLists(people);
+        
         listOfData.innerHTML = myHtml;
+        
     };
     displayList();
 
 
     // function that handle edit button and delete button
     function handleEditPerson(e) {
-        if (e.target.closest('button.edit')) {
-            const editButton = e.target.closest('ul')
-            const editedId = editButton.dataset.id;
+        const editBtn = e.target.closest('button.edit')
+        if (editBtn) {      
+            const editedId = editBtn.dataset.id;            
             editPerson(editedId);
         }
     }
     // Function for editing the form here
     const editPerson = async (dataId) => {
-        console.log(people);
-        const findPerson = people.find(person => person.id !== dataId);
+        const findPerson = people.find(person => person.id === dataId);
         console.log(findPerson);
         return new Promise(async function (resolve) {            
             const birthdayDate = new Date(findPerson.birthday).toISOString().slice(0, 10);  
@@ -76,6 +77,11 @@ async function fetchData() {
             window.addEventListener('click', e => {
                 if (e.target.closest('button.cancel')) {
                     destroyPopup(popup);
+                    document.body.style.overflow = "visible";
+                } else if (e.target.closest('button.delete-close-btn')) {
+                    destroyPopup(popup);
+                    document.body.style.overflow = "visible";
+                    console.log("we deleted somte");
                 }
             })
 
@@ -86,10 +92,14 @@ async function fetchData() {
                 findPerson.firstName = popup.firstName.value; 
                 const toTimestamp=(strDate)=>{
                     var datum = Date.parse(strDate);
-                    return datum/1000;
+                    return datum;
                  } 
                 findPerson.birthday = toTimestamp(popup.birthday.value);
-
+                people.forEach(person => {
+                    if (person.id === findPerson.id ) {
+                        person = findPerson
+                    }
+                });
                     displayList(findPerson);
 
                 resolve(popup.remove());
@@ -101,11 +111,10 @@ async function fetchData() {
 
     // function for deleting item here
     function handleDeletePerson(e) {
-        if (e.target.closest('button.delete')) {
-            const deleteData = e.target.closest('ul');
-            const deleteId = deleteData.querySelector('button.delete');
-            const deleteBtn = deleteId.dataset.id;
-            deleteDataForm(deleteBtn);
+        const deleteBtn = e.target.closest('button.delete')
+        if (deleteBtn) {
+            const deleteId = deleteBtn.dataset.id;            
+            deleteDataForm(deleteId);
         }
     };
 
@@ -133,6 +142,8 @@ async function fetchData() {
 
             window.addEventListener('click', e => {
                 if (e.target.closest('button.cancel')) {
+                    destroyPopup(dataToDelete);
+                } else if (e.target.closest('button.delete-close-btn')) {
                     destroyPopup(dataToDelete);
                 }
             });
@@ -210,6 +221,8 @@ async function fetchData() {
             window.addEventListener('click', e => {
                 if (e.target.closest('button.cancel')) {
                     destroyPopup(newData);
+                } else if (e.target.closest('button.delete-close-btn')) {
+                    destroyPopup(newData);
                 }
             })
 
@@ -254,18 +267,21 @@ async function fetchData() {
     };
 
     const filteredMonth = (people) => {
-        const listOfMonth = getMonth.value;
+        const selectedMonth = getMonth.value;
+        if (selectedMonth === "Empty") {
+            return people
+        }
         const filteredMonth = people.filter(mth => {
             const fullMonth = new Date(mth.birthday).toLocaleString('en-US', { month: 'long' });
-            return fullMonth.toLowerCase().includes(listOfMonth);
+            return fullMonth.toLowerCase().includes(selectedMonth);
         });
         return filteredMonth
     };
 
     function filteredMonthAndName() {
         const nameFiltered = filteredName(people)
-        const MonthFiltered = filteredMonth(nameFiltered) 
-        const HTML = generateLists(MonthFiltered);
+        const monthFiltered = filteredMonth(nameFiltered) 
+        const HTML = generateLists(monthFiltered);
         listOfData.innerHTML = HTML;
     }
 
