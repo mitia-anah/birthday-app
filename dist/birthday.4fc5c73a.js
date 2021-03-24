@@ -18571,15 +18571,17 @@ function generateLists(people) {
   }).map(data => {
     const today = new Date();
     const personBirthday = new Date(data.birthday);
+    let birthdayDate = personBirthday.toISOString().slice(4);
+    const momentYear = today.getFullYear();
+    birthdayDate = momentYear + birthdayDate;
+    console.log(birthdayDate);
     const day = personBirthday.getDay();
     const month = personBirthday.getMonth();
     const year = personBirthday.getFullYear();
     const peopleAge = today.getFullYear() - year;
     const futureAge = peopleAge;
-    const momentYear = today.getFullYear();
-    const birthdayDate = new Date(momentYear, month, day);
     let oneDay = 1000 * 60 * 60 * 24;
-    const dayLeft = Math.round((birthdayDate.getTime() - today.getTime()) / oneDay);
+    const dayLeft = Math.round((new Date(birthdayDate).getTime() - today.getTime()) / oneDay);
     const birthdayInDays = dayLeft < 0 ? 365 + dayLeft : dayLeft;
     var monthNname = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][month];
     const formatedDate = (0, _dateFns.format)(new Date(personBirthday), "do");
@@ -18963,7 +18965,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50842" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51152" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

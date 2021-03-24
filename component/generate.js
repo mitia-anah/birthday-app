@@ -16,20 +16,21 @@ export function generateLists(people) {
             return birthdayA - birthdayB;
         })
         .map(data => {
-            const today = new Date();
-            const personBirthday = new Date(data.birthday);
+            const today = new Date();           
+            const personBirthday = new Date(data.birthday);           
+            let birthdayDate = personBirthday.toISOString().slice(4)
+            const momentYear = today.getFullYear();
+            birthdayDate = momentYear + birthdayDate
+            console.log(birthdayDate);
             const day = personBirthday.getDay();
             const month = personBirthday.getMonth();
             const year = personBirthday.getFullYear();
             const peopleAge = today.getFullYear() - year;
             const futureAge = peopleAge;
-
-            const momentYear = today.getFullYear();
-            const birthdayDate = new Date(momentYear, month, day);
             let oneDay = 1000 * 60 * 60 * 24;
             
             
-            const dayLeft = Math.round((birthdayDate.getTime() - today.getTime()) / (oneDay));
+            const dayLeft = Math.round((new Date(birthdayDate).getTime() - today.getTime()) / (oneDay));
             const birthdayInDays = dayLeft < 0 ? 365 + dayLeft : dayLeft; 
             
             var monthNname = ["January", "February", "March", "April", "May", "June",
