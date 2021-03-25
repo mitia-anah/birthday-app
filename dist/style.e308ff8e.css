@@ -308,6 +308,9 @@ svg {
         align-items: center;
         gap: 1rem;
     }
+    .date {
+        text-align: initial;
+    }
     
 }
 
