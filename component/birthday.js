@@ -10,8 +10,7 @@ async function fetchData() {
     let people = dataList;
 
     function displayList() {
-        const myHtml = generateLists(people);
-        
+        const myHtml = generateLists(people);        
         listOfData.innerHTML = myHtml;
         
     };
@@ -77,10 +76,8 @@ async function fetchData() {
             window.addEventListener('click', e => {
                 if (e.target.closest('button.cancel')) {
                     destroyPopup(popup);
-                    document.body.classList.add("showScrollBar")
                 } else if (e.target.closest('button.delete-close-btn')) {
                     destroyPopup(popup);
-                    document.body.classList.add("showScrollBar")
                 }
             })
 
@@ -140,10 +137,8 @@ async function fetchData() {
             window.addEventListener('click', e => {
                 if (e.target.closest('button.cancel')) {
                     destroyPopup(dataToDelete);
-                    document.body.classList.add("showScrollBar")
                 } else if (e.target.closest('button.delete-close-btn')) {
                     destroyPopup(dataToDelete);
-                    document.body.classList.add("showScrollBar")
                     
                 }
             });
@@ -189,13 +184,13 @@ async function fetchData() {
                 <div class="inner-popup">
                     <h4 class="add-title">Add somebody</h4>
                     <label  class="add-label"for="picture">Picture</label>
-                    <input class="add-input" placeholder="Enter Url.." type="url" id="avatar" name="avatar" required>
+                    <input class="add-input" placeholder="Enter Url.." type="url" id="avatar" name="avatar" >
                     <label class="add-label" for="last-name">Last name</label>
-                    <input class="add-input" placeholder="What's your last name?" type="text" id="lastName" name="lastname" required>
+                    <input class="add-input" placeholder="What's your last name?" type="text" id="lastName" name="lastname" >
                     <label class="add-label" for="first-name">First name</label>
-                    <input class="add-input" placeholder="What's your first name? " type="text" id="firstName" name="firstname" required>
+                    <input class="add-input" placeholder="What's your first name? " type="text" id="firstName" name="firstname" >
                     <label class="add-label" for="birthday">Birthday</label>
-                    <input class="add-input" placeholder="Enter your birthday " type="date" id="birthday" name="birthdayDate" required>
+                    <input class="add-input" placeholder="Enter your birthday " type="date" id="birthday" name="birthdayDate" >
                     <div>
                         <button type="cancel" class="btn cancel">Cancel</button>
                         <button type="submit" class=" btn submit">Save</button>
@@ -221,10 +216,8 @@ async function fetchData() {
             window.addEventListener('click', e => {
                 if (e.target.closest('button.cancel')) {
                     destroyPopup(newData);
-                    document.body.classList.add("showScrollBar")
                 } else if (e.target.closest('button.delete-close-btn')) {
                     destroyPopup(newData);
-                    document.body.classList.add("showScrollBar")
                 }
             })
 

@@ -7,4 +7,5 @@
         await wait(1000); // Wait for 1 sec
         popup.remove(); // remove it from the DOM
         popup = null; // remove it from the javascript memory
+        document.body.style.overflow = "visible"
     }
