@@ -45,9 +45,9 @@ h1 {
     background-image: url('/images/Vector.svg');
     background-repeat: no-repeat;
     background-position: 90%;
-    padding: 1rem;
+    padding: 20px;
     border-style: none;
-    width: 264px;
+    width: 282px;
     outline: none;
     border-radius: 5px;
     cursor: pointer;
@@ -57,10 +57,12 @@ h1 {
     background: #FFFFFE;
     border-radius: 5px;
     border-style: none;
-    padding: 1rem;
+    padding: 20px;
     width: 264px;
 }
-
+.list-wrapper-container {
+    margin-top: 5px;
+}
 .list-wrapper {
     padding-inline-start: 0;
 }
@@ -127,7 +129,7 @@ h1 {
     border-style: none;
     border-style: 0;
     margin-top: 34px;
-    padding: 1rem;
+    padding: 20px;
  }
  img {
     width: 92px;
