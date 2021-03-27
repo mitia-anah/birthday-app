@@ -1,15 +1,27 @@
 # Birthday app
+- **Screenshot**
+    ![This is a screenshot of my solution of birthday app](./images/birthday-app.png)
 
-## structure of the code:
-In this project, I built a 'birthday app'. At first I created html document for the `table` element, the form for the `search` box and the `add button` which shows a new form to fill when it is clicked. When everything set up, then I worked on javascript code to do the rest of the elements, such as the `form` of the popup to edit, `div` popup to show a delete comfirmation box and etc. To get all of the people's lists, I used `fetch` to fetch the data from the `people.json`.  
+- **Figma design**
+    ![This is the real design](./images/birthday-app-figma.png)
+    - See the [figma design here]('https://www.figma.com/file/bb1Mie5R3mUhR77PtGG8bJ/Birthday-App?node-id=7%3A72')
+## structure
+In this project, we created:
+- **A form that contains**:
+        -  input where users can filter a name.
+        -  A dropdown where users can select a month.
+        -  A button which users can click when they want to add a person's information. A popup will  appear when the button is clicked, and will show a form that the user can fill with the person's picture, first name, last name, and date of birth.  
+- **An element that contains**:
+        -  lists of data from API. Each list has picture, names, date of birth of a person, and `edit`/ `delete` button.
+            - Edit: (clicking the edit button will show a popup where users can edit the information from the list.)
+            - Delete: (clicking this button will show the users a popup will ask them whether they want to remove that person from the list or not.
 
-## Improvement
-If I had more time, I would like to work on the css because I want my project to be responsive. What's more, I may have tried another technic, which is easy to read and understandable code to get the date function work rather than having so complicated code.
+## Challenge
+- This project's built only with html, css and Vanilla javascript. 
+- we fetched data from an Api to get pictures, names and date.
+- The goal was letting users to be able to filter names, select a month, add new person, and remove a list or edit a list.
+- The design also needed to match the design from figma.(View again my screenshot above and the real design below it).
+- We also installed `date-fns` to handle date computations.
+- Every action is persisted into the local storage.
 
-## Lessons learned
 
-## Bigest challenge
-What struggled me the most was to store the data to the local storage. The thing is, when I started to add the local storage function, everything didn't work anymore. It took me more time to get it solved.
-
-## More eplanation
-I would like to have more explanation with the date function because I tried to use it but gave me an error.
