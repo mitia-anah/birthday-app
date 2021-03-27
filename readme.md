@@ -2,10 +2,7 @@
 - **Screenshot**
     ![This is a screenshot of my solution of birthday app](./images/birthday-app.png)
 
-- **Figma design**
-    ![This is the real design](./images/birthday-app-figma.png)
-
-    See the [figma design here](https://www.figma.com/file/bb1Mie5R3mUhR77PtGG8bJ/Birthday-App?node-id=7%3A72)
+- **See the** [figma design here](https://www.figma.com/file/bb1Mie5R3mUhR77PtGG8bJ/Birthday-App?node-id=7%3A72)
 
 ## structure
 In this project, we created:
