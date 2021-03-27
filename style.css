@@ -60,19 +60,17 @@ h1 {
     padding: 20px;
     width: 264px;
 }
-.list-wrapper-container {
-    margin-top: 5px;
-}
+
 .list-wrapper {
     padding-inline-start: 0;
+    margin-block-start: 1rem;
 }
 .list-of-data {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    margin-block-start: 3rem;
-    margin-block-end: 2rem;
+    margin-block-start: 31px;
     background: #FFFFFE;
     border-radius: 5px;
     list-style: none;
